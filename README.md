@@ -1,5 +1,7 @@
 # rhsm
 
+THIS MODULE IS STILL IN EARLY DEVELOPMENT
+
 #### Table of Contents
 
 1. [Overview](#overview)

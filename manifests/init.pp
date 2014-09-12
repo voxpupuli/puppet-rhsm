@@ -6,36 +6,45 @@
 #
 # Document parameters here.
 #
-# [*sample_parameter*]
-#   Explanation of what this parameter affects and what it defaults to.
-#   e.g. "Specify one or more upstream ntp servers as an array."
-#
-# === Variables
-#
-# Here you should define a list of variables that this module would require.
-#
-# [*sample_variable*]
-#   Explanation of how this variable affects the funtion of this class and if
-#   it has a default. e.g. "The parameter enc_ntp_servers must be set by the
-#   External Node Classifier as a comma separated list of hostnames." (Note,
-#   global variables should be avoided in favor of class parameters as
-#   of Puppet 2.6.)
+# [*rh_user*]
+#   User for the Customer Portal
+# [*rh_password*]
+#   Password for the rh_user account
+# [*servername*]
+#   Servername, default is provided.
+# [*proxy_hostname*]
+#   Proxy hostname
+# [*proxy_port*]
+#   Proxy port
+# [*proxy_user*]
+#   Proxy user
+# [*proxy_password*]
+#   Proxy password
+# [*baseurl*]
+#   Base URL for rhsm, default provided.
+# [*manage_repos*]
+#   Manage the repositories
 #
 # === Examples
 #
-#  class { rhsm:
-#    servers => [ 'pool.ntp.org', 'ntp.local.company.com' ],
-#  }
+# include rhsm
+#
+# Hierafile:
+# ---
+# rhsm::rh_user: myuser
+# rhsm::rh_password: mypassword
 #
 # === Authors
 #
-# Author Name <author@domain.com>
+# Ger Apeldoorn <info@gerapeldoorn.nl>
 #
 # === Copyright
 #
-# Copyright 2014 Your name here, unless otherwise noted.
+# Copyright 2014 Ger Apeldoorn, unless otherwise noted.
 #
 class rhsm (
+ $rh_user,
+ $rh_password,
  $servername = 'subscription.rhn.redhat.com',
  $proxy_hostname = undef,
  $proxy_port = undef,
@@ -43,19 +52,20 @@ class rhsm (
  $proxy_password = undef,
  $baseurl= 'https://cdn.redhat.com',
  $manage_repos = 1,
- $activationkey,
- $organisation
 ) {
 
   if $proxy_hostname {
     $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
   }
 
-  $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\" --activationkey=\"${activationkey}\" --org=\"${organisation}\" ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-7-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-7-server-extras-rpms --add=enabled:1"
+  $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-7-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-7-server-extras-rpms --add=enabled:1"
 
   file { '/etc/rhsm/rhsm.conf':
     ensure => file,
   }
 
-  notify { "RHNSM command: ${command}": }
+  exec { 'RHNSM-register':
+    command => $command,
+    unless  => '/usr/sbin/subscription-manager list | grep Subscribed',
+  }
 }

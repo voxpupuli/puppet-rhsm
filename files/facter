@@ -1,0 +1,7 @@
+#!/bin/bash
+
+if ! subscription-manager list | grep -qi subscribed; then
+  echo "subscribed=false"
+else
+  echo "subscribed=true"
+fi

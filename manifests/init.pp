@@ -69,6 +69,6 @@ class rhsm (
 
   exec { 'RHNSM-register':
     command => $command,
-    unless  => '/usr/sbin/subscription-manager list | grep Subscribed',
+    unless  => '/usr/sbin/subscription-manager status | grep Current',
   }
 }

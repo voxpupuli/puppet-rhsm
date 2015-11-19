@@ -17,7 +17,7 @@ define rhsm::repo (
   
   exec { "RHSM::repo register ${title}":
     command => $command,
-    unless  => "/bin/grep ${title} /etc/yum.repos.d/redhat.repo",
+    unless  => "/usr/sbin/subscription-manager repos --list-enabled | /bin/grep ${title}",
     require => Exec['RHNSM-register'],
   }
 }

@@ -15,9 +15,13 @@ define rhsm::repo (
 
   $command = "/usr/sbin/subscription-manager repos --enable=${title} ${proxycli}"
   
+  package { 'subscription-manager.x86_64':
+    ensure => latest,
+  }
+
   exec { "RHSM::repo register ${title}":
     command => $command,
     unless  => "/usr/sbin/subscription-manager repos --list-enabled | /bin/grep ${title}",
-    require => Exec['RHNSM-register'],
+    require => [ Exec['RHNSM-register'], Package['subscription-manager.x86_64']] ,
   }
 }

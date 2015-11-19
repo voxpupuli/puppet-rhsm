@@ -15,7 +15,7 @@ define rhsm::repo (
 
   $command = "/usr/sbin/subscription-manager repos --enable=${title} ${proxycli}"
   
-  package { 'subscription-manager.x86_64':
+  package { 'subscription-manager':
     ensure => latest,
   }
 

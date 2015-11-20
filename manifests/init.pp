@@ -60,8 +60,14 @@ class rhsm (
 
   $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-extras-rpms --add=enabled:1"
   
-
-  
+  package { 'subscription-manager':
+    ensure => latest,
+  }
+  exec {'sm yum clean all':
+    command     => '/bin/yum clean all',
+    refreshonly => true,
+    subscribe   => Package['subscription-manager'],
+  }
 
   file { '/etc/rhsm/rhsm.conf':
     ensure => file,

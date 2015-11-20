@@ -64,7 +64,7 @@ class rhsm (
     ensure => latest,
   }
   exec {'sm yum clean all':
-    command     => '/bin/yum clean all',
+    command     => '/usr/bin/yum clean all',
     refreshonly => true,
     subscribe   => Package['subscription-manager'],
   }

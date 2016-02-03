@@ -74,7 +74,8 @@ class rhsm (
   
 
   file { '/etc/rhsm/rhsm.conf':
-    ensure => file,
+    content => template('rhsm/rhsm.conf.erb'),
+    ensure => file
   }
 
   exec { 'RHNSM-register':

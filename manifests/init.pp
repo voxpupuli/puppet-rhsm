@@ -12,6 +12,8 @@
 #   Password for the rh_user account
 # [*servername*]
 #   Servername, default is provided.
+# [*pool*]
+#   Attach system to a specific pool instead of auto attach to compatible subscriptions.
 # [*proxy_hostname*]
 #   Proxy hostname
 # [*proxy_port*]
@@ -46,6 +48,7 @@ class rhsm (
  $rh_user,
  $rh_password,
  $servername = 'subscription.rhn.redhat.com',
+ $pool = undef,
  $proxy_hostname = undef,
  $proxy_port = undef,
  $proxy_user = undef,
@@ -62,8 +65,11 @@ class rhsm (
     }
   }
 
-  $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-extras-rpms --add=enabled:1"
-  
+  if $pool == undef {
+    $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-extras-rpms --add=enabled:1"
+  } else {
+    $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
+  }
 
   
 

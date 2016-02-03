@@ -55,7 +55,11 @@ class rhsm (
 ) {
 
   if $proxy_hostname {
-    $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+    if $proxy_user and $proxy_password {
+      $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+    } else {
+      $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port}"
+    }
   }
 
   $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-extras-rpms --add=enabled:1"

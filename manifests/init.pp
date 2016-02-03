@@ -47,14 +47,14 @@
 class rhsm (
  $rh_user,
  $rh_password,
- $servername = 'subscription.rhn.redhat.com',
- $pool = undef,
+ $servername     = 'subscription.rhn.redhat.com',
+ $pool           = undef,
  $proxy_hostname = undef,
- $proxy_port = undef,
- $proxy_user = undef,
+ $proxy_port     = undef,
+ $proxy_user     = undef,
  $proxy_password = undef,
- $baseurl= 'https://cdn.redhat.com',
- $manage_repos = 1,
+ $baseurl        = 'https://cdn.redhat.com',
+ $manage_repos   = 1,
 ) {
 
   if $proxy_hostname {
@@ -71,11 +71,9 @@ class rhsm (
     $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
   }
 
-  
-
   file { '/etc/rhsm/rhsm.conf':
     content => template('rhsm/rhsm.conf.erb'),
-    ensure => file
+    ensure  => file
   }
 
   exec { 'RHNSM-register':

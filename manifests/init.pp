@@ -66,9 +66,9 @@ class rhsm (
   }
 
   if $pool == undef {
-    $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-extras-rpms --add=enabled:1"
+    $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-extras-rpms --add=enabled:1"
   } else {
-    $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
+    $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
   }
 
   file { '/etc/rhsm/rhsm.conf':

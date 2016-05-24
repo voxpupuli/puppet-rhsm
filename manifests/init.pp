@@ -24,8 +24,6 @@
 #   Proxy password
 # [*baseurl*]
 #   Base URL for rhsm, default provided.
-# [*manage_repos*]
-#   Manage the repositories
 #
 # === Examples
 #
@@ -53,8 +51,7 @@ class rhsm (
  $proxy_port     = undef,
  $proxy_user     = undef,
  $proxy_password = undef,
- $baseurl        = 'https://cdn.redhat.com',
- $manage_repos   = 1,
+ $baseurl        = 'https://cdn.redhat.com'
 ) {
 
   if $proxy_hostname {

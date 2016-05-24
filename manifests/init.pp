@@ -72,9 +72,14 @@ class rhsm (
     content => template('rhsm/rhsm.conf.erb'),
     ensure  => file
   }
+  
+  package { 'subscription-manager':
+    ensure => 'present'
+  }
 
   exec { 'RHNSM-register':
     command => $command,
     onlyif  => '/usr/sbin/subscription-manager list | grep "Not Subscribed"',
+    require => Package['subscription-manager']
   }
 }

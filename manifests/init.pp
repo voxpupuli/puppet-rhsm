@@ -79,7 +79,7 @@ class rhsm (
 
   exec { 'RHNSM-register':
     command => $command,
-    onlyif  => '/usr/sbin/subscription-manager list | grep "Not Subscribed"',
+    onlyif  => '/usr/sbin/subscription-manager list | grep "Not Subscribed\|Unknown"',
     require => Package['subscription-manager']
   }
 }

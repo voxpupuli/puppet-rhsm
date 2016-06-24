@@ -14,10 +14,10 @@ define rhsm::repo (
   }
 
   $command = "/usr/sbin/subscription-manager repos --enable=${title} ${proxycli}"
-  
+
   exec { "RHSM::repo register ${title}":
     command => $command,
-    unless  => "/bin/grep ${title} /etc/yum.repos.d/redhat.repo",
-    require => Exec['RHNSM-register'],
+    unless  => "/usr/sbin/subscription-manager repos --list-enabled | /bin/grep ${title}",
+    require => [ Exec['RHNSM-register'], Package['subscription-manager'] ] ,
   }
 }

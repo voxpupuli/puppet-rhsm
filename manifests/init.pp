@@ -58,10 +58,16 @@ class rhsm (
     $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
   }
 
-  $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-extras-rpms --add=enabled:1"
+  $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli}"
   
-
-  
+  package { 'subscription-manager':
+    ensure => latest,
+  }
+  exec {'sm yum clean all':
+    command     => '/usr/bin/yum clean all',
+    refreshonly => true,
+    subscribe   => Package['subscription-manager'],
+  }
 
   file { '/etc/rhsm/rhsm.conf':
     ensure => file,
@@ -69,6 +75,6 @@ class rhsm (
 
   exec { 'RHNSM-register':
     command => $command,
-    unless  => '/usr/sbin/subscription-manager list | grep Subscribed',
+    unless  => '/usr/sbin/subscription-manager status | grep Current',
   }
 }

@@ -43,16 +43,16 @@
 # Copyright 2014 Ger Apeldoorn, unless otherwise noted.
 #
 class rhsm (
- $rh_user,
- $rh_password,
- $servername     = 'subscription.rhn.redhat.com',
- $pool           = undef,
- $proxy_hostname = undef,
- $proxy_port     = undef,
- $proxy_user     = undef,
- $proxy_password = undef,
- $baseurl        = 'https://cdn.redhat.com',
- $package_ensure = 'latest'
+  $rh_user,
+  $rh_password,
+  $servername     = 'subscription.rhn.redhat.com',
+  $pool           = undef,
+  $proxy_hostname = undef,
+  $proxy_port     = undef,
+  $proxy_user     = undef,
+  $proxy_password = undef,
+  $baseurl        = 'https://cdn.redhat.com',
+  $package_ensure = 'latest'
 ) {
 
   if $proxy_hostname {
@@ -84,13 +84,13 @@ class rhsm (
   }
 
   file { '/etc/rhsm/rhsm.conf':
+    ensure  => file,
     content => template('rhsm/rhsm.conf.erb'),
-    ensure  => file
   }
 
   exec { 'RHNSM-register':
     command => $command,
     onlyif  => '/usr/sbin/subscription-manager list | grep "Not Subscribed\|Unknown"',
-    require => Package['subscription-manager']
+    require => Package['subscription-manager'],
   }
 }

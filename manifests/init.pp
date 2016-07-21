@@ -56,6 +56,8 @@ class rhsm (
 
   if $proxy_hostname {
     $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+  } else {
+    $proxycli = ''
   }
 
   $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli}"

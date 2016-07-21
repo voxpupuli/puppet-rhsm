@@ -36,6 +36,7 @@ To attach the system to a specific pool (can be found on a registered system wit
    pool        => 'the_pool_id'
   }
 ```
+
 Or, with Hiera: (recommended)
 ```puppet
   include rhsm
@@ -45,3 +46,8 @@ Or, with Hiera: (recommended)
   rhsm::rh_user: myuser
   rhsm::rh_password: mypassword
 ```  
+
+
+## Limitations
+
+Well, only RedHat is supported :)

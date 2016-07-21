@@ -51,7 +51,8 @@ class rhsm (
  $proxy_port     = undef,
  $proxy_user     = undef,
  $proxy_password = undef,
- $baseurl        = 'https://cdn.redhat.com'
+ $baseurl        = 'https://cdn.redhat.com',
+ $package_ensure = 'latest'
 ) {
 
   if $proxy_hostname {
@@ -60,6 +61,8 @@ class rhsm (
     } else {
       $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port}"
     }
+  } else {
+    $proxycli = ''
   }
 
   if $pool == undef {
@@ -68,13 +71,21 @@ class rhsm (
     $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
   }
 
+  $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli}"
+
+  package { 'subscription-manager':
+    ensure => $package_ensure,
+  }
+
+  exec {'sm yum clean all':
+    command     => '/usr/bin/yum clean all',
+    refreshonly => true,
+    subscribe   => Package['subscription-manager'],
+  }
+
   file { '/etc/rhsm/rhsm.conf':
     content => template('rhsm/rhsm.conf.erb'),
     ensure  => file
-  }
-  
-  package { 'subscription-manager':
-    ensure => 'present'
   }
 
   exec { 'RHNSM-register':

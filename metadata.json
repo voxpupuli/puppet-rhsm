@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "author": "gerapeldoorn",
   "summary": "Register with the RedHat Subscription Management",
-  "license": "Apache 2.0",
+  "license": "Apache-2.0",
   "source": "https://github.com/gerapeldoorn/puppet-rhsm",
   "project_page": "https://github.com/gerapeldoorn/puppet-rhsm",
   "issues_url": "https://github.com/gerapeldoorn/puppet-rhsm/issues",
@@ -11,6 +11,16 @@
     {
       "name": "puppetlabs-stdlib",
       "version_range": ">= 1.0.0"
+    }
+  ],
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "CentOS",
+      "operatingsystemrelease": [
+        "5.0",
+        "6.0",
+        "7.0"
+      ]
     }
   ]
 }

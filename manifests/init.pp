@@ -43,15 +43,15 @@
 # Copyright 2014 Ger Apeldoorn, unless otherwise noted.
 #
 class rhsm (
- $rh_user,
- $rh_password,
- $servername = 'subscription.rhn.redhat.com',
- $proxy_hostname = undef,
- $proxy_port = undef,
- $proxy_user = undef,
- $proxy_password = undef,
- $baseurl= 'https://cdn.redhat.com',
- $manage_repos = 1,
+  $rh_user,
+  $rh_password,
+  $servername = 'subscription.rhn.redhat.com',
+  $proxy_hostname = undef,
+  $proxy_port = undef,
+  $proxy_user = undef,
+  $proxy_password = undef,
+  $baseurl= 'https://cdn.redhat.com',
+  $manage_repos = 1,
 ) {
 
   if $proxy_hostname {
@@ -59,7 +59,7 @@ class rhsm (
   }
 
   $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli}"
-  
+
   package { 'subscription-manager':
     ensure => latest,
   }

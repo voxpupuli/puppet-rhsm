@@ -1,17 +1,17 @@
-dir = File.expand_path(File.dirname(__FILE__))
-$LOAD_PATH.unshift File.join(dir, 'lib')
+require 'puppetlabs_spec_helper/module_spec_helper'
+require 'rspec-puppet-facts'
+include RspecPuppetFacts
 
-require 'mocha'
-require 'puppet'
-require 'rspec'
-require 'spec/autorun'
-
-Spec::Runner.configure do |config|
-    config.mock_with :mocha
+RSpec.configure do |c|
+  c.default_facts = {
+    concat_basedir: '/tmp',
+    is_pe: false,
+    selinux_config_mode: 'disabled',
+    puppetversion: Puppet.version,
+    facterversion: Facter.version,
+    ipaddress: '172.16.254.254',
+    macaddress: 'AA:AA:AA:AA:AA:AA'
+  }
 end
 
-# We need this because the RAL uses 'should' as a method.  This
-# allows us the same behaviour but with a different method name.
-class Object
-    alias :must :should
-end
+# vim: syntax=ruby

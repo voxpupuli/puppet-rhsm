@@ -23,10 +23,12 @@ Just declare the module with parameters, or load the data from Hiera.
 
 ## Usage
 
-  class { 'rhsm':
-   rh_user     => 'myuser',
-   rh_password => 'mypassword',
-  }
+```puppet
+class { 'rhsm':
+  rh_user     => 'myuser',
+  rh_password => 'mypassword',
+}
+```
 
 Or, with Hiera: (recommended)
 
@@ -36,7 +38,7 @@ Or, with Hiera: (recommended)
   ---
   rhsm::rh_user: myuser
   rhsm::rh_password: mypassword
-    
+
 
 ## Limitations
 

@@ -36,7 +36,7 @@ Or, with Hiera: (recommended)
   ---
   rhsm::rh_user: myuser
   rhsm::rh_password: mypassword
-    
+
 
 ## Limitations
 

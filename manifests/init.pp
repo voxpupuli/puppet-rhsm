@@ -59,7 +59,7 @@ class rhsm (
   }
 
   $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli}"
-  
+
   package { 'subscription-manager':
     ensure => latest,
   }

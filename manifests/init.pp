@@ -12,6 +12,8 @@
 #   Password for the rh_user account
 # [*servername*]
 #   Servername, default is provided.
+# [*pool*]
+#   Attach system to a specific pool instead of auto attach to compatible subscriptions.
 # [*proxy_hostname*]
 #   Proxy hostname
 # [*proxy_port*]
@@ -22,8 +24,6 @@
 #   Proxy password
 # [*baseurl*]
 #   Base URL for rhsm, default provided.
-# [*manage_repos*]
-#   Manage the repositories
 #
 # === Examples
 #
@@ -45,26 +45,36 @@
 class rhsm (
   $rh_user,
   $rh_password,
-  $servername = 'subscription.rhn.redhat.com',
+  $servername     = 'subscription.rhn.redhat.com',
+  $pool           = undef,
   $proxy_hostname = undef,
-  $proxy_port = undef,
-  $proxy_user = undef,
+  $proxy_port     = undef,
+  $proxy_user     = undef,
   $proxy_password = undef,
-  $baseurl= 'https://cdn.redhat.com',
-  $manage_repos = 1,
+  $baseurl        = 'https://cdn.redhat.com',
+  $package_ensure = 'latest'
 ) {
 
   if $proxy_hostname {
-    $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+    if $proxy_user and $proxy_password {
+      $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+    } else {
+      $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port}"
+    }
   } else {
     $proxycli = ''
   }
 
-  $command = "/usr/sbin/subscription-manager register --force --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli}"
+  if $pool == undef {
+    $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-extras-rpms --add=enabled:1"
+  } else {
+    $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
+  }
 
   package { 'subscription-manager':
-    ensure => latest,
+    ensure => $package_ensure,
   }
+
   exec {'sm yum clean all':
     command     => '/usr/bin/yum clean all',
     refreshonly => true,
@@ -72,11 +82,13 @@ class rhsm (
   }
 
   file { '/etc/rhsm/rhsm.conf':
-    ensure => file,
+    ensure  => file,
+    content => template('rhsm/rhsm.conf.erb'),
   }
 
   exec { 'RHNSM-register':
     command => $command,
-    unless  => '/usr/sbin/subscription-manager status | grep Current',
+    onlyif  => '/usr/sbin/subscription-manager list | grep "Not Subscribed\|Unknown"',
+    require => Package['subscription-manager'],
   }
 }

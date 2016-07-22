@@ -9,15 +9,10 @@
 define rhsm::repo (
 ) {
 
-  if $rhsm::proxy_hostname {
-    $proxycli = "--proxy=http://${rhsm::proxy_hostname}:${rhsm::proxy_port} --proxyuser=${rhsm::proxy_user} --proxypass=${rhsm::proxy_password}"
+  yumrepo { $title:
+    enable  => true,
+    require => Package['subscription-manager'],
+    target  => '/etc/yum.repos.d/redhat.repo',
   }
 
-  $command = "/usr/sbin/subscription-manager repos --enable=${title} ${proxycli}"
-
-  exec { "RHSM::repo register ${title}":
-    command => $command,
-    unless  => "/usr/sbin/subscription-manager repos --list-enabled | /bin/grep ${title}",
-    require => [ Exec['RHNSM-register'], Package['subscription-manager'] ] ,
-  }
 }

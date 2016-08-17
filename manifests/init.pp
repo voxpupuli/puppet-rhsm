@@ -52,7 +52,9 @@ class rhsm (
   $proxy_user     = undef,
   $proxy_password = undef,
   $baseurl        = 'https://cdn.redhat.com',
-  $package_ensure = 'latest'
+  $package_ensure = 'latest',
+  $repo_extras    = false,
+  $repo_optional  = false
 ) {
 
   if $proxy_hostname {
@@ -66,7 +68,7 @@ class rhsm (
   }
 
   if $pool == undef {
-    $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli} && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-optional-rpms --add=enabled:1 && /usr/sbin/subscription-manager repo-override --repo rhel-${::operatingsystemmajrelease}-server-extras-rpms --add=enabled:1"
+    $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli}"
   } else {
     $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
   }
@@ -91,4 +93,17 @@ class rhsm (
     onlyif  => '/usr/sbin/subscription-manager list | grep "Not Subscribed\|Unknown"',
     require => Package['subscription-manager'],
   }
+
+  if $repo_extras {
+    rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-extras-rpms":
+      require => Exec['RHNSM-register'],
+    }
+  }
+
+  if $repo_optional {
+    rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-optional-rpms":
+      require => Exec['RHNSM-register'],
+    }
+  }
+
 }

@@ -68,9 +68,9 @@ class rhsm (
   }
 
   if $pool == undef {
-    $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" --auto-attach ${proxycli}"
+    $command = "/usr/sbin/subscription-manager register --name='${::fqdn}'  --username='${rh_user}' --password='${rh_password}' --auto-attach ${proxycli}"
   } else {
-    $command = "/usr/sbin/subscription-manager register --name=\"${::fqdn}\"  --username=\"${rh_user}\" --password=\"${rh_password}\" ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
+    $command = "/usr/sbin/subscription-manager register --name='${::fqdn}'  --username='${rh_user}' --password='${rh_password}' ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
   }
 
   package { 'subscription-manager':

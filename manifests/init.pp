@@ -94,7 +94,7 @@ class rhsm (
     path    => '/usr/sbin',
     require => Package['subscription-manager'],
   }
-  
+
   exec { 'RHNSM-subscribe':
     command => $command,
     onlyif  => 'subscription-manager list | grep "Not Subscribed\|Unknown"',

@@ -68,9 +68,9 @@ class rhsm (
   }
 
   if $pool == undef {
-    $command = "/usr/sbin/subscription-manager register --name='${::fqdn}'  --username='${rh_user}' --password='${rh_password}' --auto-attach ${proxycli}"
+    $command = "subscription-manager attach --auto ${proxycli}"
   } else {
-    $command = "/usr/sbin/subscription-manager register --name='${::fqdn}'  --username='${rh_user}' --password='${rh_password}' ${proxycli} && /usr/sbin/subscription-manager attach --pool=${pool}"
+    $command = "subscription-manager attach --pool=${pool} ${proxycli}"
   }
 
   package { 'subscription-manager':
@@ -89,9 +89,17 @@ class rhsm (
   }
 
   exec { 'RHNSM-register':
-    command => $command,
-    onlyif  => '/usr/sbin/subscription-manager list | grep "Not Subscribed\|Unknown"',
+    command => "subscription-manager register --name='${::fqdn}' --username='${rh_user}' --password='${rh_password}' ${proxycli}",
+    onlyif  => 'subscription-manager identity | grep "not yet registered"',
+    path    => '/usr/sbin',
     require => Package['subscription-manager'],
+  }
+
+  exec { 'RHNSM-subscribe':
+    command => $command,
+    onlyif  => 'subscription-manager list | grep "Not Subscribed\|Unknown"',
+    path    => '/usr/sbin',
+    require => Exec['RHNSM-register'],
   }
 
   if $repo_extras {

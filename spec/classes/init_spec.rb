@@ -17,11 +17,11 @@ describe 'rhsm', type: :class do
             rh_user: 'username'
           }
         end
-        it { should compile.with_all_deps }
-        it { should contain_package('subscription-manager') }
-        it { should contain_file('/etc/rhsm/rhsm.conf') }
-        it { should contain_exec('sm yum clean all') }
-        it { should contain_exec('RHNSM-register') }
+        it { is_expected.to compile.with_all_deps }
+        it { is_expected.to contain_package('subscription-manager') }
+        it { is_expected.to contain_file('/etc/rhsm/rhsm.conf') }
+        it { is_expected.to contain_exec('sm yum clean all') }
+        it { is_expected.to contain_exec('RHNSM-register') }
       end
     end
   end

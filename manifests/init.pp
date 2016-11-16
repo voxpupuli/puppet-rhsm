@@ -43,8 +43,10 @@
 # Copyright 2014 Ger Apeldoorn, unless otherwise noted.
 #
 class rhsm (
-  $rh_user,
-  $rh_password,
+  $rh_user        = undef,
+  $rh_password    = undef,
+  $org            = undef,
+  $activationkey  = undef,
   $servername     = 'subscription.rhn.redhat.com',
   $pool           = undef,
   $proxy_hostname = undef,
@@ -57,20 +59,48 @@ class rhsm (
   $repo_optional  = false
 ) {
 
+  if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
+    fail("${module_name}: Must provide rh_user and rh_password or org and activationkey")
+  }
+
+  if $rh_user {
+    $_user = " --username='${rh_user}'"
+  } else {
+    $_user = ''
+  }
+
+  if $rh_password {
+    $_password = " --password='${rh_password}'"
+  } else {
+    $_password = ''
+  }
+
+  if $org {
+    $_org = " --org='${org}'"
+  } else {
+    $_org = ''
+  }
+
+  if $activationkey {
+    $_activationkey = " --activationkey='${activationkey}'"
+  } else {
+    $_activationkey = ''
+  }
+
   if $proxy_hostname {
     if $proxy_user and $proxy_password {
-      $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+      $proxycli = " --proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
     } else {
-      $proxycli = "--proxy=http://${proxy_hostname}:${proxy_port}"
+      $proxycli = " --proxy=http://${proxy_hostname}:${proxy_port}"
     }
   } else {
     $proxycli = ''
   }
 
   if $pool == undef {
-    $command = "subscription-manager attach --auto ${proxycli}"
+    $command = "subscription-manager attach --auto${proxycli}"
   } else {
-    $command = "subscription-manager attach --pool=${pool} ${proxycli}"
+    $command = "subscription-manager attach --pool=${pool}${proxycli}"
   }
 
   package { 'subscription-manager':
@@ -89,7 +119,7 @@ class rhsm (
   }
 
   exec { 'RHNSM-register':
-    command => "subscription-manager register --name='${::fqdn}' --username='${rh_user}' --password='${rh_password}' ${proxycli}",
+    command => "subscription-manager register --name='${::fqdn}'${_user}${_password}${_org}${_activationkey}${proxycli}",
     onlyif  => 'subscription-manager identity | grep "not yet registered"',
     path    => '/usr/bin:/usr/sbin',
     require => Package['subscription-manager'],

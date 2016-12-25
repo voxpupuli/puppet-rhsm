@@ -32,7 +32,7 @@ To attach the system to a specific pool (can be found on a registered system wit
 ```yaml
   rhsm::rh_user: myuser
   rhsm::rh_password: mypassword
-```  
+```
 
 ### Proxy
 If the RedHat node must use a proxy to access the internet, you'll have to provide at least the hostname and TCP port.

@@ -21,7 +21,31 @@ describe 'rhsm', type: :class do
         it { is_expected.to contain_package('subscription-manager') }
         it { is_expected.to contain_file('/etc/rhsm/rhsm.conf') }
         it { is_expected.to contain_exec('sm yum clean all') }
-        it { is_expected.to contain_exec('RHNSM-register') }
+        it do
+          is_expected.to contain_exec('RHNSM-register').with(
+            command: "subscription-manager register --name='#{facts[:fqdn]}' --username='username' --password='password'"
+          )
+        end
+
+        it do
+          is_expected.to contain_exec('RHNSM-subscribe').with(
+            command: 'subscription-manager attach --auto'
+          )
+        end
+      end
+
+      context 'with provided org and activation key' do
+        let :params do
+          {
+            org: 'org',
+            activationkey: 'key'
+          }
+        end
+        it do
+          is_expected.to contain_exec('RHNSM-register').with(
+            command: "subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key'"
+          )
+        end
       end
     end
   end

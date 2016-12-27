@@ -1,16 +1,22 @@
 {
   "name": "puppet-rhsm",
-  "version": "0.3.1-rc0",
-  "author": "Voxpupuli",
+  "version": "1.0.1-rc0",
+  "author": "Vox Pupuli",
   "summary": "Register with the RedHat Subscription Management",
   "license": "Apache-2.0",
-  "source": "https://github.com/gerapeldoorn/puppet-rhsm",
-  "project_page": "https://github.com/gerapeldoorn/puppet-rhsm",
-  "issues_url": "https://github.com/gerapeldoorn/puppet-rhsm/issues",
+  "source": "https://github.com/voxpupuli/puppet-rhsm",
+  "project_page": "https://github.com/voxpupuli/puppet-rhsm",
+  "issues_url": "https://github.com/voxpupuli/puppet-rhsm/issues",
   "dependencies": [
     {
       "name": "puppetlabs-stdlib",
-      "version_requirement": ">= 1.0.0 < 5.0.0"
+      "version_requirement": ">= 4.6.0 < 5.0.0"
+    }
+  ],
+  "requirements": [
+    {
+      "name": "puppet",
+      "version_requirement": ">= 3.8.7 < 5.0.0"
     }
   ],
   "operatingsystem_support": [

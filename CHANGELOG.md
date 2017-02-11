@@ -1,5 +1,10 @@
 # Changelog
 
+## 2017-02-11 Release 1.1.0
+
+This is the last release with Puppet3 support!
+* Modulesync
+
 ## 2016-12-25 Release 1.0.0
 
 * Modulesync with latest Vox Pupuli defaults

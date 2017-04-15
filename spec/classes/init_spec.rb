@@ -17,6 +17,7 @@ describe 'rhsm', type: :class do
             rh_user: 'username'
           }
         end
+
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_package('subscription-manager') }
         it { is_expected.to contain_file('/etc/rhsm/rhsm.conf') }
@@ -41,6 +42,7 @@ describe 'rhsm', type: :class do
             activationkey: 'key'
           }
         end
+
         it do
           is_expected.to contain_exec('RHNSM-register').with(
             command: "subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key'"

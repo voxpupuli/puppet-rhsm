@@ -8,9 +8,11 @@
 #
 define rhsm::repo (
 ) {
+
   yumrepo { $title:
-    enabled => true,
+    enable  => true,
     require => Package['subscription-manager'],
     target  => '/etc/yum.repos.d/redhat.repo',
   }
+
 }

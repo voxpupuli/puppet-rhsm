@@ -127,7 +127,7 @@ class rhsm (
 
   exec { 'RHNSM-subscribe':
     command => $command,
-    onlyif  => 'subscription-manager list 2>&1 | grep "Not Subscribed\|Unknown"',
+    onlyif  => 'subscription-manager list 2>&1 | grep "Expired\|Not Subscribed\|Unknown"',
     path    => '/bin:/usr/bin:/usr/sbin',
     require => Exec['RHNSM-register'],
   }

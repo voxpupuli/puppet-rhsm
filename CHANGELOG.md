@@ -4,8 +4,8 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not impact the functionality of the module.
 
-## [v2.0.0-rc0](https://github.com/voxpupuli/puppet-rhsm/tree/v2.0.0-rc0) (2017-07-06)
-[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v1.1.0...v2.0.0-rc0)
+## [v2.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v2.0.0) (2017-07-06)
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v1.1.0...v2.0.0)
 
 **Fixed bugs:**
 

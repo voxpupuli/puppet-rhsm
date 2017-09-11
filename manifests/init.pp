@@ -1,46 +1,38 @@
-# == Class: rhsm
+# rhsm
 #
-# Subscribe the node to the RHSM
-#
-# === Parameters
-#
-# Document parameters here.
-#
-# [*rh_user*]
-#   User for the Customer Portal
-# [*rh_password*]
-#   Password for the rh_user account
-# [*servername*]
-#   Servername, default is provided.
-# [*pool*]
-#   Attach system to a specific pool instead of auto attach to compatible subscriptions.
-# [*proxy_hostname*]
-#   Proxy hostname
-# [*proxy_port*]
-#   Proxy port
-# [*proxy_user*]
-#   Proxy user
-# [*proxy_password*]
-#   Proxy password
-# [*baseurl*]
-#   Base URL for rhsm, default provided.
-#
-# === Examples
-#
-# include rhsm
-#
-# Hierafile:
-# ---
-# rhsm::rh_user: myuser
-# rhsm::rh_password: mypassword
-#
-# === Authors
-#
-# Ger Apeldoorn <info@gerapeldoorn.nl>
-#
-# === Copyright
+# Subscribe the node to RHSM
 #
 # Copyright 2014 Ger Apeldoorn, unless otherwise noted.
+#
+# @summary Subscribe the node to RHSM
+#
+# @param rh_user [String] User for the Customer Portal.
+#   You need to specify either (rh_user and rh_password) or (org and activationkey)
+# @param rh_password [String] Password for the rh_user account
+# @param org [String] Organization to use
+# @param activationkey [String] Activationkey to use
+# @param servername [String] Servername, default provided
+#   Used directly in rhsm.conf template
+# @param pool [String] Attach system to a specific pool instead of auto attach to compatible subscriptions
+# @param proxy_hostname [String] Proxy hostname
+# @param proxy_port [String] Proxy port
+# @param proxy_user [String] Proxy user
+# @param proxy_password [String] Proxy password
+# @param baseurl [String] Base URL for rhsm, default provided
+# @param package_ensure [String] Whether to install subscription-manager
+# @param repo_extras [Boolean] Enable extras repository
+# @param repo_optional [Boolean] Enable optional repository
+#
+# @example
+#   include rhsm
+#
+# @example
+#   # Hierafile:
+#   ---
+#   rhsm::rh_user: myuser
+#   rhsm::rh_password: mypassword
+#
+# @author Ger Apeldoorn <info@gerapeldoorn.nl>
 #
 class rhsm (
   $rh_user        = undef,

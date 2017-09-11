@@ -47,7 +47,7 @@ class rhsm (
   $rh_password    = undef,
   $org            = undef,
   $activationkey  = undef,
-  $servername     = 'subscription.rhn.redhat.com',
+  $servername     = 'subscription.rhsm.redhat.com',
   $pool           = undef,
   $proxy_hostname = undef,
   $proxy_port     = undef,
@@ -118,29 +118,29 @@ class rhsm (
     content => template('rhsm/rhsm.conf.erb'),
   }
 
-  exec { 'RHNSM-register':
+  exec { 'RHSM-register':
     command => "subscription-manager register --name='${::fqdn}'${_user}${_password}${_org}${_activationkey}${proxycli}",
     onlyif  => 'subscription-manager identity 2>&1 | grep "not yet registered"',
     path    => '/bin:/usr/bin:/usr/sbin',
     require => Package['subscription-manager'],
   }
 
-  exec { 'RHNSM-subscribe':
+  exec { 'RHSM-subscribe':
     command => $command,
     onlyif  => 'subscription-manager list 2>&1 | grep "Expired\|Not Subscribed\|Unknown"',
     path    => '/bin:/usr/bin:/usr/sbin',
-    require => Exec['RHNSM-register'],
+    require => Exec['RHSM-register'],
   }
 
   if $repo_extras {
     ::rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-extras-rpms":
-      require => Exec['RHNSM-register'],
+      require => Exec['RHSM-register'],
     }
   }
 
   if $repo_optional {
     ::rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-optional-rpms":
-      require => Exec['RHNSM-register'],
+      require => Exec['RHSM-register'],
     }
   }
 

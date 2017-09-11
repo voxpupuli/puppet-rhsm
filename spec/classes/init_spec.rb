@@ -23,13 +23,13 @@ describe 'rhsm', type: :class do
         it { is_expected.to contain_file('/etc/rhsm/rhsm.conf') }
         it { is_expected.to contain_exec('sm yum clean all') }
         it do
-          is_expected.to contain_exec('RHNSM-register').with(
+          is_expected.to contain_exec('RHSM-register').with(
             command: "subscription-manager register --name='#{facts[:fqdn]}' --username='username' --password='password'"
           )
         end
 
         it do
-          is_expected.to contain_exec('RHNSM-subscribe').with(
+          is_expected.to contain_exec('RHSM-subscribe').with(
             command: 'subscription-manager attach --auto'
           )
         end
@@ -44,7 +44,7 @@ describe 'rhsm', type: :class do
         end
 
         it do
-          is_expected.to contain_exec('RHNSM-register').with(
+          is_expected.to contain_exec('RHSM-register').with(
             command: "subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key'"
           )
         end

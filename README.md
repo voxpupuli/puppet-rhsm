@@ -2,7 +2,7 @@
 
 ## Overview
 
-This module registers your systems with Redhat Subscription Management.
+This module registers your systems with RedHat Subscription Management.
 
 ## Setup
 
@@ -15,7 +15,8 @@ Just declare the module with parameters, or load the data from Hiera.
    rh_password => 'mypassword',
   }
 ```
-To attach the system to a specific pool (can be found on a registered system with 'subscription-manager list --available'):
+To attach the system to a specific pool (can be found on a registered system with `subscription-manager list --available`):
+
 ```puppet
   class { 'rhsm':
    rh_user     => 'myuser',
@@ -29,13 +30,15 @@ To attach the system to a specific pool (can be found on a registered system wit
   include rhsm
 ```
   Hierafile:
+
 ```yaml
-  rhsm::rh_user: myuser
-  rhsm::rh_password: mypassword
+rhsm::rh_user: myuser
+rhsm::rh_password: mypassword
 ```
 
 ### Proxy
 If the RedHat node must use a proxy to access the internet, you'll have to provide at least the hostname and TCP port.
+
 ```puppet
   class { 'rhsm':
    proxy_hostname => 'my.proxy.net',
@@ -44,9 +47,9 @@ If the RedHat node must use a proxy to access the internet, you'll have to provi
    rh_password    => 'mypassword',
   }
 ```
-You shouldn't specify the protocol, subscription-manager will use HTTP. For proxies with authentication, specify the 'proxy_user' and 'proxy_password' values.
+You shouldn't specify the protocol, subscription-manager will use HTTP. For proxies with authentication, specify the `proxy_user` and `proxy_password` values.
 
-The proxy settings will be used to register the system and as connection option for all the YUM repositories generated in /etc/yum.repos.d/redhat.repo
+The proxy settings will be used to register the system and as connection option for all the YUM repositories generated in `/etc/yum.repos.d/redhat.repo`
 
 ## Limitations
 

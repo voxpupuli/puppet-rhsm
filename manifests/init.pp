@@ -13,9 +13,23 @@
 # @param activationkey [String] Activationkey to use
 # @param servername [String] Servername, default provided
 #   Used directly in rhsm.conf template
+# @param serverprefix [String] server.prefix to use
+#   Used directly in rhsm.conf template
+#   /rhsm for Satellite 6
+#   /subscription for RHSM
+# @param serverport [Integer] server.port to use
+#   Used directly in rhsm.conf template
+# @param repo_ca_cert [String] rhsm.repo_ca_cert
+#   Used directly in rhsm.conf template
+#   %(ca_cert_dir)skatello-server-ca.pem for Satellite 6
+#   %(ca_cert_dir)sredhat-uep.pem for RHSM
+# @param full_refresh_on_yum [Integer] rhsm.full_refresh_on_yum
+#   Used directly in rhsm.conf template
+#   1 for Satellite 6
+#   0 for RHSM
 # @param pool [String] Attach system to a specific pool instead of auto attach to compatible subscriptions
 # @param proxy_hostname [String] Proxy hostname
-# @param proxy_port [String] Proxy port
+# @param proxy_port [Integer] Proxy port
 # @param proxy_user [String] Proxy user
 # @param proxy_password [String] Proxy password
 # @param baseurl [String] Base URL for rhsm, default provided
@@ -35,20 +49,24 @@
 # @author Ger Apeldoorn <info@gerapeldoorn.nl>
 #
 class rhsm (
-  $rh_user        = undef,
-  $rh_password    = undef,
-  $org            = undef,
-  $activationkey  = undef,
-  $servername     = 'subscription.rhsm.redhat.com',
-  $pool           = undef,
-  $proxy_hostname = undef,
-  $proxy_port     = undef,
-  $proxy_user     = undef,
-  $proxy_password = undef,
-  $baseurl        = 'https://cdn.redhat.com',
-  $package_ensure = 'latest',
-  $repo_extras    = false,
-  $repo_optional  = false
+  $rh_user             = undef,
+  $rh_password         = undef,
+  $org                 = undef,
+  $activationkey       = undef,
+  $pool                = undef,
+  $proxy_hostname      = undef,
+  $proxy_port          = undef,
+  $proxy_user          = undef,
+  $proxy_password      = undef,
+  $baseurl             = 'https://cdn.redhat.com',
+  $servername          = 'subscription.rhsm.redhat.com',
+  $serverprefix        = '/subscription',
+  $serverport          = 443,
+  $repo_ca_cert        = '%(ca_cert_dir)sredhat-uep.pem',
+  $full_refresh_on_yum = 0,
+  $package_ensure      = 'latest',
+  $repo_extras         = false,
+  $repo_optional       = false
 ) {
 
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {

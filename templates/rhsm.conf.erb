@@ -6,10 +6,10 @@
 hostname = <%= @servername %>
 
 # Server prefix:
-prefix = /subscription
+prefix = <%= @serverprefix %>
 
 # Server port:
-port = 443
+port = <%= @serverport %>
 
 # Set to 1 to disable certificate validation:
 insecure = 0
@@ -30,6 +30,9 @@ proxy_user = <%= @proxy_user %>
 # password for basic http proxy auth, if needed
 proxy_password = <%= @proxy_password %>
 
+# host/domain suffix blacklist for proxy, if needed
+no_proxy =
+
 [rhsm]
 # Content base URL:
 baseurl= <%= @baseurl %>
@@ -38,7 +41,7 @@ baseurl= <%= @baseurl %>
 ca_cert_dir = /etc/rhsm/ca/
 
 # Default CA cert to use when generating yum repo configs:
-repo_ca_cert = %(ca_cert_dir)sredhat-uep.pem
+repo_ca_cert = <%= @repo_ca_cert %>
 
 # Where the certificates should be stored
 productCertDir = /etc/pki/product
@@ -49,7 +52,7 @@ consumerCertDir = /etc/pki/consumer
 manage_repos = <%= @manage_repos %>
 
 # Refresh repo files with server overrides on every yum command
-full_refresh_on_yum = 0
+full_refresh_on_yum = <%= @full_refresh_on_yum %>
 
 # If set to zero, the client will not report the package profile to
 # the subscription management service.
@@ -66,5 +69,15 @@ pluginConfDir = /etc/rhsm/pluginconf.d
 certCheckInterval = 240
 # Interval to run auto-attach (in minutes):
 autoAttachInterval = 1440
+# If set to zero, the checks done by the rhsmcertd daemon will not be splayed (randomly offset)
+splay = 1
 
+[logging]
+default_log_level = INFO
+# subscription_manager = DEBUG
+# subscription_manager.managercli = DEBUG
+# rhsm = DEBUG
+# rhsm.connection = DEBUG
+# rhsm-app = DEBUG
+# rhsm-app.rhsmd = DEBUG
 

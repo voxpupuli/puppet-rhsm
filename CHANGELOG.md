@@ -1,8 +1,25 @@
-# Change log
+# Changelog
 
 All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
-These should not impact the functionality of the module.
+These should not affect the functionality of the module.
+
+## [v2.1.0](https://github.com/voxpupuli/puppet-rhsm/tree/v2.1.0) (2017-10-09)
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v2.0.0...v2.1.0)
+
+**Implemented enhancements:**
+
+- Update rhsm.conf template \(5.15.1\) and add configurable params [\#50](https://github.com/voxpupuli/puppet-rhsm/pull/50) ([kallies](https://github.com/kallies))
+- Change documentation syntax to YARD/Puppet Strings [\#48](https://github.com/voxpupuli/puppet-rhsm/pull/48) ([kallies](https://github.com/kallies))
+
+**Fixed bugs:**
+
+- `yum repolist` in fact rhsm\_repos leads to deadlock [\#52](https://github.com/voxpupuli/puppet-rhsm/issues/52)
+- Change servername to subscription.rhsm.redhat.com [\#49](https://github.com/voxpupuli/puppet-rhsm/pull/49) ([kallies](https://github.com/kallies))
+
+**Merged pull requests:**
+
+- Use subscription-manager instead of yum for listing enabled repos [\#53](https://github.com/voxpupuli/puppet-rhsm/pull/53) ([kallies](https://github.com/kallies))
 
 ## [v2.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v2.0.0) (2017-07-06)
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v1.1.0...v2.0.0)
@@ -18,6 +35,7 @@ These should not impact the functionality of the module.
 
 **Merged pull requests:**
 
+- Release 2.0.0 [\#47](https://github.com/voxpupuli/puppet-rhsm/pull/47) ([bastelfreak](https://github.com/bastelfreak))
 - The yumrepo parameter `enabled` had a typo. [\#43](https://github.com/voxpupuli/puppet-rhsm/pull/43) ([rnelson0](https://github.com/rnelson0))
 - Add LICENSE file [\#41](https://github.com/voxpupuli/puppet-rhsm/pull/41) ([alexjfisher](https://github.com/alexjfisher))
 - Read from both stdout and stderr for Exec onlyif [\#39](https://github.com/voxpupuli/puppet-rhsm/pull/39) ([tux-o-matic](https://github.com/tux-o-matic))

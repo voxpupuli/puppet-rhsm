@@ -23,6 +23,8 @@
 #   Used directly in rhsm.conf template
 #   %(ca_cert_dir)skatello-server-ca.pem for Satellite 6
 #   %(ca_cert_dir)sredhat-uep.pem for RHSM
+# @param manage_repos [Integer] 1 if subscription manager should manage yum repos file or
+#   0 if the subscription is only used for tracking purposes
 # @param full_refresh_on_yum [Integer] rhsm.full_refresh_on_yum
 #   Used directly in rhsm.conf template
 #   1 for Satellite 6
@@ -63,6 +65,7 @@ class rhsm (
   $serverprefix        = '/subscription',
   $serverport          = 443,
   $repo_ca_cert        = '%(ca_cert_dir)sredhat-uep.pem',
+  $manage_repos        = 1,
   $full_refresh_on_yum = 0,
   $package_ensure      = 'latest',
   $repo_extras         = false,

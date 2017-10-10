@@ -19,10 +19,14 @@
 #   /subscription for RHSM
 # @param serverport [Integer] server.port to use
 #   Used directly in rhsm.conf template
+# @param ca_cert_dir [String] Server CA certificate location
+# @param repo_ca_cert_filename [String] File containting the CA cert to use when generating yum repo configs
+#   katello-server-ca.pem for Satellite 6
+#   redhat-uep.pem for RHSM
 # @param repo_ca_cert [String] rhsm.repo_ca_cert
 #   Used directly in rhsm.conf template
-#   %(ca_cert_dir)skatello-server-ca.pem for Satellite 6
-#   %(ca_cert_dir)sredhat-uep.pem for RHSM
+# @param repo_ca_cert_source [String] URI, if set the content is used for CA file resource ${ca_cert_dir}/${repo_ca_cert_filename}
+#   Possible values are puppet:, file: and http:
 # @param manage_repos [Integer] 1 if subscription manager should manage yum repos file or
 #   0 if the subscription is only used for tracking purposes
 # @param full_refresh_on_yum [Integer] rhsm.full_refresh_on_yum
@@ -51,25 +55,28 @@
 # @author Ger Apeldoorn <info@gerapeldoorn.nl>
 #
 class rhsm (
-  $rh_user             = undef,
-  $rh_password         = undef,
-  $org                 = undef,
-  $activationkey       = undef,
-  $pool                = undef,
-  $proxy_hostname      = undef,
-  $proxy_port          = undef,
-  $proxy_user          = undef,
-  $proxy_password      = undef,
-  $baseurl             = 'https://cdn.redhat.com',
-  $servername          = 'subscription.rhsm.redhat.com',
-  $serverprefix        = '/subscription',
-  $serverport          = 443,
-  $repo_ca_cert        = '%(ca_cert_dir)sredhat-uep.pem',
-  $manage_repos        = 1,
-  $full_refresh_on_yum = 0,
-  $package_ensure      = 'latest',
-  $repo_extras         = false,
-  $repo_optional       = false
+  $rh_user               = undef,
+  $rh_password           = undef,
+  $org                   = undef,
+  $activationkey         = undef,
+  $pool                  = undef,
+  $proxy_hostname        = undef,
+  $proxy_port            = undef,
+  $proxy_user            = undef,
+  $proxy_password        = undef,
+  $baseurl               = 'https://cdn.redhat.com',
+  $servername            = 'subscription.rhsm.redhat.com',
+  $serverprefix          = '/subscription',
+  $serverport            = 443,
+  $ca_cert_dir           = '/etc/rhsm/ca/',
+  $repo_ca_cert_filename = 'redhat-uep.pem',
+  $repo_ca_cert          = "%(ca_cert_dir)s${repo_ca_cert_filename}",
+  $repo_ca_cert_source   = undef,
+  $manage_repos          = 1,
+  $full_refresh_on_yum   = 0,
+  $package_ensure        = 'latest',
+  $repo_extras           = false,
+  $repo_optional         = false
 ) {
 
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
@@ -129,6 +136,14 @@ class rhsm (
   file { '/etc/rhsm/rhsm.conf':
     ensure  => file,
     content => template('rhsm/rhsm.conf.erb'),
+  }
+
+  if $repo_ca_cert_source != undef {
+    file { "${ca_cert_dir}/${repo_ca_cert_filename}":
+      ensure => present,
+      mode   => '0644',
+      source => $repo_ca_cert_source,
+    }
   }
 
   exec { 'RHSM-register':

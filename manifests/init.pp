@@ -23,8 +23,6 @@
 # @param repo_ca_cert_filename [String] File containting the CA cert to use when generating yum repo configs
 #   katello-server-ca.pem for Satellite 6
 #   redhat-uep.pem for RHSM
-# @param repo_ca_cert [String] rhsm.repo_ca_cert
-#   Used directly in rhsm.conf template
 # @param repo_ca_cert_source [String] URI, if set the content is used for CA file resource ${ca_cert_dir}/${repo_ca_cert_filename}
 #   Possible values are puppet:, file: and http:
 # @param manage_repos [Integer] 1 if subscription manager should manage yum repos file or
@@ -70,7 +68,6 @@ class rhsm (
   $serverport            = 443,
   $ca_cert_dir           = '/etc/rhsm/ca/',
   $repo_ca_cert_filename = 'redhat-uep.pem',
-  $repo_ca_cert          = "%(ca_cert_dir)s${repo_ca_cert_filename}",
   $repo_ca_cert_source   = undef,
   $manage_repos          = 1,
   $full_refresh_on_yum   = 0,

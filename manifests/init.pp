@@ -135,7 +135,7 @@ class rhsm (
     content => template('rhsm/rhsm.conf.erb'),
   }
 
-  if $repo_ca_cert_source != undef {
+  if $repo_ca_cert_source {
     file { "${ca_cert_dir}/${repo_ca_cert_filename}":
       ensure => present,
       mode   => '0644',

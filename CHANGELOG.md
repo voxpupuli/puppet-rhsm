@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v3.0.0) (2017-11-16)
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v2.1.1...v3.0.0)
+
+**Implemented enhancements:**
+
+- Add params for adding custom certificates [\#57](https://github.com/voxpupuli/puppet-rhsm/pull/57) ([kallies](https://github.com/kallies))
+
+**Fixed bugs:**
+
+- Fix yumrepo 'enabled' property [\#59](https://github.com/voxpupuli/puppet-rhsm/pull/59) ([cohdjn](https://github.com/cohdjn))
+
+**Closed issues:**
+
+- repo\_optional always caused puppet run to make change [\#58](https://github.com/voxpupuli/puppet-rhsm/issues/58) ([cohdjn](https://github.com/cohdjn))
+
 ## [v2.1.1](https://github.com/voxpupuli/puppet-rhsm/tree/v2.1.1) (2017-10-10)
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v2.1.0...v2.1.1)
 

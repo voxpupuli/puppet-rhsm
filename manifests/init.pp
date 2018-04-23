@@ -73,7 +73,8 @@ class rhsm (
   $full_refresh_on_yum   = 0,
   $package_ensure        = 'latest',
   $repo_extras           = false,
-  $repo_optional         = false
+  $repo_optional         = false,
+  $repo_scl              = false,
 ) {
 
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
@@ -165,6 +166,12 @@ class rhsm (
 
   if $repo_optional {
     ::rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-optional-rpms":
+      require => Exec['RHSM-register'],
+    }
+  }
+
+  if $repo_scl {
+    ::rhsm::repo { "rhel-server-rhscl-${::operatingsystemmajrelease}-rpms":
       require => Exec['RHSM-register'],
     }
   }

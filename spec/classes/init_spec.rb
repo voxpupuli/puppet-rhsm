@@ -14,7 +14,7 @@ describe 'rhsm', type: :class do
         let :params do
           {
             rh_password: 'password',
-            rh_user: 'username'
+            rh_user: 'username',
           }
         end
 
@@ -24,13 +24,13 @@ describe 'rhsm', type: :class do
         it { is_expected.to contain_exec('sm yum clean all') }
         it do
           is_expected.to contain_exec('RHSM-register').with(
-            command: "subscription-manager register --name='#{facts[:fqdn]}' --username='username' --password='password'"
+            command: "subscription-manager register --name='#{facts[:fqdn]}' --username='username' --password='password'",
           )
         end
 
         it do
           is_expected.to contain_exec('RHSM-subscribe').with(
-            command: 'subscription-manager attach --auto'
+            command: 'subscription-manager attach --auto',
           )
         end
       end
@@ -39,13 +39,13 @@ describe 'rhsm', type: :class do
         let :params do
           {
             org: 'org',
-            activationkey: 'key'
+            activationkey: 'key',
           }
         end
 
         it do
           is_expected.to contain_exec('RHSM-register').with(
-            command: "subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key'"
+            command: "subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key'",
           )
         end
       end

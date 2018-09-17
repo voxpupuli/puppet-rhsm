@@ -40,7 +40,10 @@
 # @param package_ensure [String] Whether to install subscription-manager
 # @param repo_extras [Boolean] Enable extras repository
 # @param repo_optional [Boolean] Enable optional repository
-#
+# @param enabled_repo_ids [Array[String]
+#   A listing of the Repo IDs to provide to the subscription-manager repo
+#   --enable command.
+#   
 # @example
 #   include rhsm
 #
@@ -72,8 +75,7 @@ class rhsm (
   $manage_repos          = 1,
   $full_refresh_on_yum   = 0,
   $package_ensure        = 'latest',
-  $repo_extras           = false,
-  $repo_optional         = false
+  Optional[Array[String]] $enabled_repo_ids = [],
 ) {
 
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
@@ -157,16 +159,11 @@ class rhsm (
     require => Exec['RHSM-register'],
   }
 
-  if $repo_extras {
-    ::rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-extras-rpms":
-      require => Exec['RHSM-register'],
+  unless(empty($enabled_repo_ids)) {
+    $enabled_repo_ids.each | $repo_id | {
+      ::rhsm::repo { $repo_id:
+        require => Exec['RHSM-subscribe'],
+      }
     }
   }
-
-  if $repo_optional {
-    ::rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-optional-rpms":
-      require => Exec['RHSM-register'],
-    }
-  }
-
 }

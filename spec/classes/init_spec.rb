@@ -3,7 +3,11 @@ describe 'rhsm', type: :class do
   on_supported_os.each do |os, facts|
     context "on supported OS #{os} " do
       let :facts do
-        facts
+        facts.merge(
+          'rhsm' => {
+            'enabled_repo_ids' => [],
+          },
+        )
       end
 
       context 'with defaults for all parameters' do
@@ -48,6 +52,24 @@ describe 'rhsm', type: :class do
             command: "subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key'",
           )
         end
+      end
+
+      context 'with list of repos to enable' do
+        let(:params) do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            enabled_repo_ids: [
+              'rhel-7-server-rpms',
+              'rhel-7-server-optional-rpms',
+            ],
+          }
+        end
+
+        it { is_expected.to have_rhsm__repo_resource_count(2) }
+
+        it { is_expected.to contain_rhsm__repo('rhel-7-server-rpms').that_requires('Exec[RHSM-subscribe]') }
+        it { is_expected.to contain_rhsm__repo('rhel-7-server-optional-rpms').that_requires('Exec[RHSM-subscribe]') }
       end
     end
   end

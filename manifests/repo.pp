@@ -12,9 +12,11 @@
 #   ::rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-extras-rpms": }
 define rhsm::repo (
 ) {
-  yumrepo { $title:
-    enabled => '1',
-    require => Package['subscription-manager'],
-    target  => '/etc/yum.repos.d/redhat.repo',
+  # Check to see if the title is an enabled repo
+  if ! ($title in $facts['rhsm']['enabled_repo_ids']) {
+    exec { "RHSM-enable_${title}":
+      command => "subscription-manager repos --enable ${title}",
+      path    => '/bin:/usr/bin:/usr/sbin',
+    }
   }
 }

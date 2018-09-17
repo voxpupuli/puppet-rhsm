@@ -5,8 +5,8 @@ describe 'rhsm::repo' do
       let(:facts) do
         facts.merge(
           'rhsm' => {
-            'enabled_repo_ids' => [],
-          },
+            'enabled_repo_ids' => []
+          }
         )
       end
 
@@ -17,7 +17,7 @@ describe 'rhsm::repo' do
 
         it {
           is_expected.to contain_exec('RHSM-enable_rhel-7-server-rpms').with(
-            command: 'subscription-manager repos --enable rhel-7-server-rpms',
+            command: 'subscription-manager repos --enable rhel-7-server-rpms'
           )
         }
       end
@@ -29,7 +29,7 @@ describe 'rhsm::repo' do
 
         it {
           is_expected.to contain_exec('RHSM-enable_rhel-7-optional-rpms').with(
-            command: 'subscription-manager repos --enable rhel-7-optional-rpms',
+            command: 'subscription-manager repos --enable rhel-7-optional-rpms'
           )
         }
       end
@@ -41,9 +41,9 @@ describe 'rhsm::repo' do
           facts.merge(
             'rhsm' => {
               'enabled_repo_ids' => [
-                'rhel-7-optional-rpms',
-              ],
-            },
+                'rhel-7-optional-rpms'
+              ]
+            }
           )
         end
 

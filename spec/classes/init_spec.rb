@@ -3,11 +3,7 @@ describe 'rhsm', type: :class do
   on_supported_os.each do |os, facts|
     context "on supported OS #{os} " do
       let :facts do
-        facts.merge(
-          'rhsm' => {
-            'enabled_repo_ids' => [],
-          },
-        )
+        facts
       end
 
       context 'with defaults for all parameters' do

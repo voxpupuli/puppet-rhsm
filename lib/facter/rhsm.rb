@@ -1,5 +1,7 @@
 Facter.add(:rhsm, type: :aggregate) do
-  confine Facter.value(:os)['name'] => 'RedHat'
+  confine :os do |os|
+    os['name'] == 'RedHat'
+  end
 
   # List the currently enabled repositories
   chunk(:enabled_repo_ids) do
@@ -8,17 +10,17 @@ Facter.add(:rhsm, type: :aggregate) do
     repo_list.each_line do |line|
       repos.push(line.strip)
     end
-    repos
+    { enabled_repo_ids: repos }
   end
 
   # Determine the subscription type
   chunk(:subscription_type) do
     if File.exist? '/etc/sysconfig/rhn/systemid'
-      'rhn_classic'
+      { subscription_type: 'rhn_classic' }
     elsif File.exist? '/etc/pki/consumer/cert.pem'
-      'rhsm'
+      { subscription_type: 'rhsm' }
     else
-      'unknown'
+      { subscription_type: 'unknown' }
     end
   end
 end

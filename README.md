@@ -51,6 +51,33 @@ You shouldn't specify the protocol, subscription-manager will use HTTP. For prox
 
 The proxy settings will be used to register the system and as connection option for all the YUM repositories generated in `/etc/yum.repos.d/redhat.repo`
 
+### Enabled Repos
+
+A string array of repo IDs can now be provided as an argument to the class definition. This list will be used to enable the target repos if that has not already occurred.
+
+The following example enables the server and optional RPMs:
+
+```puppet
+class { 'rhsm':
+  rh_user          => 'myuser',
+  rh_password      => 'mypassword',
+  enabled_repo_ids => [
+    'rhel-7-server-rpms',
+    'rhel-7-server-optional-rpms'
+  ]
+}
+```
+
+Alternatively, hiera can be utilized to specify these arguments.
+
+```yaml
+rhsm::rh_user: myuser
+rhsm::rh_password: mypassword
+rhsm::enabled_repo_ids:
+  - 'rhel-7-server-rpms',
+  - 'rhel-7-server-optional-rpms'
+```
+
 ### Satellite 6
 Registering with Red Hat Satellite 6 needs some additional settings.
 

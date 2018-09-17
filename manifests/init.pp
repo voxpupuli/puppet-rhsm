@@ -38,8 +38,6 @@
 # @param proxy_password [String] Proxy password
 # @param baseurl [String] Base URL for rhsm, default provided
 # @param package_ensure [String] Whether to install subscription-manager
-# @param repo_extras [Boolean] Enable extras repository
-# @param repo_optional [Boolean] Enable optional repository
 # @param enabled_repo_ids [Array[String]
 #   A listing of the Repo IDs to provide to the subscription-manager repo
 #   --enable command.

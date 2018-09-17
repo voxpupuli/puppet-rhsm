@@ -1,3 +1,4 @@
 ---
-# Define an empty array so we don't error
-rhsm::enabled_repo_ids:
+lookup_options:
+  rhsm::enabled_repo_ids:
+    merge: 'unique'

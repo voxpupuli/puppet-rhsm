@@ -24,3 +24,24 @@ Facter.add(:rhsm, type: :aggregate) do
     end
   end
 end
+
+# Backward compatibility
+Facter.add('rhsm_repos') do
+  confine :os do |os|
+    os['name'] == 'RedHat'
+  end
+
+  setcode do
+    Facter.value(:rhsm)[:enabled_repo_ids]
+  end
+end
+
+Facter.add('rhsm_subscription_type') do
+  confine :os do |os|
+    os['name'] == 'RedHat'
+  end
+
+  setcode do
+    Facter.value(:rhsm)[:subscription_type]
+  end
+end

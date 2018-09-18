@@ -1,5 +1,7 @@
 # rhsm
 
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-rhsm.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-rhsm)[![Version](https://img.shields.io/puppetforge/v/puppet/rhsm.svg)](https://forge.puppet.com/puppet/rhsm)
+
 ## Overview
 
 This module registers your systems with RedHat Subscription Management.
@@ -53,7 +55,7 @@ The proxy settings will be used to register the system and as connection option 
 
 ### Enabled Repos
 
-A string array of repo IDs can now be provided as an argument to the class definition. This list will be used to enable the target repos if that has not already occurred.
+A string array of repo IDs can be provided as an argument to the class definition. This list will be used to enable the target repos if that has not already occurred.
 
 The following example enables the server and optional RPMs:
 

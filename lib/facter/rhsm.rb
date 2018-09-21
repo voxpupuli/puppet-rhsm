@@ -7,10 +7,10 @@ Facter.add(:rhsm, type: :aggregate) do
   if File.exist? '/usr/bin/subscription-manager'
     chunk(:enabled_repo_ids) do
       repos = Array.[]
-        repo_list = Facter::Core::Execution.exec("subscription-manager repos --list-enabled | awk '/Repo ID:/ {print $3}'")
-        repo_list.each_line do |line|
-          repos.push(line.strip)
-        end
+      repo_list = Facter::Core::Execution.exec("subscription-manager repos --list-enabled | awk '/Repo ID:/ {print $3}'")
+      repo_list.each_line do |line|
+        repos.push(line.strip)
+      end
       { enabled_repo_ids: repos }
     end
   end

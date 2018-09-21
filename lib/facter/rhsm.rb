@@ -1,16 +1,18 @@
 Facter.add(:rhsm, type: :aggregate) do
   confine :os do |os|
-    os['name'] == 'RedHat'
+    os['family'] == 'RedHat'
   end
 
   # List the currently enabled repositories
-  chunk(:enabled_repo_ids) do
-    repos = Array.[]
-    repo_list = Facter::Core::Execution.exec("subscription-manager repos --list-enabled | awk '/Repo ID:/ {print $3}'")
-    repo_list.each_line do |line|
-      repos.push(line.strip)
+  if File.exist? '/usr/bin/subscription-manager'
+    chunk(:enabled_repo_ids) do
+      repos = Array.[]
+        repo_list = Facter::Core::Execution.exec("subscription-manager repos --list-enabled | awk '/Repo ID:/ {print $3}'")
+        repo_list.each_line do |line|
+          repos.push(line.strip)
+        end
+      { enabled_repo_ids: repos }
     end
-    { enabled_repo_ids: repos }
   end
 
   # Determine the subscription type
@@ -28,7 +30,7 @@ end
 # Backward compatibility
 Facter.add('rhsm_repos') do
   confine :os do |os|
-    os['name'] == 'RedHat'
+    os['family'] == 'RedHat'
   end
 
   setcode do
@@ -38,7 +40,7 @@ end
 
 Facter.add('rhsm_subscription_type') do
   confine :os do |os|
-    os['name'] == 'RedHat'
+    os['family'] == 'RedHat'
   end
 
   setcode do

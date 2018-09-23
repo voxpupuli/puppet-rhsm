@@ -13,7 +13,7 @@ describe 'rhsm::repo' do
       context 'enabling server rpms' do
         let(:title) { 'rhel-7-server-rpms' }
 
-        it { is_expected.to compile }
+        it { is_expected.to compile.with_all_deps }
 
         it {
           is_expected.to contain_exec('RHSM-enable_rhel-7-server-rpms').with(
@@ -25,7 +25,7 @@ describe 'rhsm::repo' do
       context 'enabling optional rpms' do
         let(:title) { 'rhel-7-optional-rpms' }
 
-        it { is_expected.to compile }
+        it { is_expected.to compile.with_all_deps }
 
         it {
           is_expected.to contain_exec('RHSM-enable_rhel-7-optional-rpms').with(
@@ -47,7 +47,7 @@ describe 'rhsm::repo' do
           )
         end
 
-        it { is_expected.to compile }
+        it { is_expected.to compile.with_all_deps }
 
         it { is_expected.not_to contain_exec('RHSM-enable_rhel-7-optional-rpms') }
       end

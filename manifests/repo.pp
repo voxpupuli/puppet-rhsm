@@ -14,7 +14,7 @@ define rhsm::repo (
 ) {
   # Check to see if the title is an enabled repo
   unless(empty($facts['rhsm'])) {
-    if ! ($title in $facts['rhsm']['enabled_repo_ids']) {
+    unless($title in $facts['rhsm']['enabled_repo_ids']) {
       exec { "RHSM-enable_${title}":
         command => "subscription-manager repos --enable ${title}",
         path    => '/bin:/usr/bin:/usr/sbin',

@@ -73,7 +73,7 @@ class rhsm (
   $manage_repos          = 1,
   $full_refresh_on_yum   = 0,
   $package_ensure        = 'latest',
-  Optional[Array[String]] $enabled_repo_ids = [],
+  Array[String[1]] $enabled_repo_ids = [],
 ) {
 
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
@@ -159,7 +159,7 @@ class rhsm (
 
   unless(empty($enabled_repo_ids)) {
     $enabled_repo_ids.each | $repo_id | {
-      ::rhsm::repo { $repo_id:
+      rhsm::repo { $repo_id:
         require => Exec['RHSM-subscribe'],
       }
     }

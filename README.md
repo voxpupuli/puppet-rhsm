@@ -1,8 +1,16 @@
 # rhsm
 
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-rhsm.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-rhsm)[![Version](https://img.shields.io/puppetforge/v/puppet/rhsm.svg)](https://forge.puppet.com/puppet/rhsm)
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-rhsm.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-rhsm) [![Version](https://img.shields.io/puppetforge/v/puppet/rhsm.svg)](https://forge.puppet.com/puppet/rhsm)
 
-## Overview
+#### Table of Contents
+
+1. [Description](#description)
+2. [Setup](#setup)
+3. [Usage](#usage)
+4. [Limitations](#limitations)
+5. [Development](#development)
+
+## Description
 
 This module registers your systems with RedHat Subscription Management.
 
@@ -103,3 +111,7 @@ class { 'rhsm':
 ## Limitations
 
 Well, only RedHat is supported :)
+
+## Development
+
+Some general guidelines on PR structure can be found [here](https://voxpupuli.org/docs/#reviewing-a-module-pr).

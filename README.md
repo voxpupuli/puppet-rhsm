@@ -1,6 +1,16 @@
 # rhsm
 
-## Overview
+[![Build Status](https://travis-ci.org/voxpupuli/puppet-rhsm.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-rhsm) [![Version](https://img.shields.io/puppetforge/v/puppet/rhsm.svg)](https://forge.puppet.com/puppet/rhsm)
+
+#### Table of Contents
+
+1. [Description](#description)
+2. [Setup](#setup)
+3. [Usage](#usage)
+4. [Limitations](#limitations)
+5. [Development](#development)
+
+## Description
 
 This module registers your systems with RedHat Subscription Management.
 
@@ -51,6 +61,33 @@ You shouldn't specify the protocol, subscription-manager will use HTTP. For prox
 
 The proxy settings will be used to register the system and as connection option for all the YUM repositories generated in `/etc/yum.repos.d/redhat.repo`
 
+### Enabled Repos
+
+A string array of repo IDs can be provided as an argument to the class definition. This list will be used to enable the target repos if that has not already occurred.
+
+The following example enables the server and optional RPMs:
+
+```puppet
+class { 'rhsm':
+  rh_user          => 'myuser',
+  rh_password      => 'mypassword',
+  enabled_repo_ids => [
+    'rhel-7-server-rpms',
+    'rhel-7-server-optional-rpms'
+  ]
+}
+```
+
+Alternatively, hiera can be utilized to specify these arguments.
+
+```yaml
+rhsm::rh_user: myuser
+rhsm::rh_password: mypassword
+rhsm::enabled_repo_ids:
+  - 'rhel-7-server-rpms',
+  - 'rhel-7-server-optional-rpms'
+```
+
 ### Satellite 6
 Registering with Red Hat Satellite 6 needs some additional settings.
 
@@ -74,3 +111,7 @@ class { 'rhsm':
 ## Limitations
 
 Well, only RedHat is supported :)
+
+## Development
+
+Some general guidelines on PR structure can be found [here](https://voxpupuli.org/docs/#reviewing-a-module-pr).

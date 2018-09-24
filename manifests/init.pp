@@ -38,9 +38,10 @@
 # @param proxy_password [String] Proxy password
 # @param baseurl [String] Base URL for rhsm, default provided
 # @param package_ensure [String] Whether to install subscription-manager
-# @param repo_extras [Boolean] Enable extras repository
-# @param repo_optional [Boolean] Enable optional repository
-#
+# @param enabled_repo_ids [Array[String]
+#   A listing of the Repo IDs to provide to the subscription-manager repo
+#   --enable command.
+#   
 # @example
 #   include rhsm
 #
@@ -53,27 +54,26 @@
 # @author Ger Apeldoorn <info@gerapeldoorn.nl>
 #
 class rhsm (
-  $rh_user               = undef,
-  $rh_password           = undef,
-  $org                   = undef,
-  $activationkey         = undef,
-  $pool                  = undef,
-  $proxy_hostname        = undef,
-  $proxy_port            = undef,
-  $proxy_user            = undef,
-  $proxy_password        = undef,
-  $baseurl               = 'https://cdn.redhat.com',
-  $servername            = 'subscription.rhsm.redhat.com',
-  $serverprefix          = '/subscription',
-  $serverport            = 443,
-  $ca_cert_dir           = '/etc/rhsm/ca/',
-  $repo_ca_cert_filename = 'redhat-uep.pem',
-  $repo_ca_cert_source   = undef,
-  $manage_repos          = 1,
-  $full_refresh_on_yum   = 0,
-  $package_ensure        = 'latest',
-  $repo_extras           = false,
-  $repo_optional         = false
+  $rh_user                           = undef,
+  $rh_password                       = undef,
+  $org                               = undef,
+  $activationkey                     = undef,
+  $pool                              = undef,
+  $proxy_hostname                    = undef,
+  $proxy_port                        = undef,
+  $proxy_user                        = undef,
+  $proxy_password                    = undef,
+  $baseurl                           = 'https://cdn.redhat.com',
+  $servername                        = 'subscription.rhsm.redhat.com',
+  $serverprefix                      = '/subscription',
+  $serverport                        = 443,
+  $ca_cert_dir                       = '/etc/rhsm/ca/',
+  $repo_ca_cert_filename             = 'redhat-uep.pem',
+  $repo_ca_cert_source               = undef,
+  $manage_repos                      = 1,
+  $full_refresh_on_yum               = 0,
+  $package_ensure                    = 'latest',
+  Array[String[1]] $enabled_repo_ids = [],
 ) {
 
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
@@ -157,16 +157,11 @@ class rhsm (
     require => Exec['RHSM-register'],
   }
 
-  if $repo_extras {
-    ::rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-extras-rpms":
-      require => Exec['RHSM-register'],
+  unless(empty($enabled_repo_ids)) {
+    $enabled_repo_ids.each | $repo_id | {
+      rhsm::repo { $repo_id:
+        require => Exec['RHSM-subscribe'],
+      }
     }
   }
-
-  if $repo_optional {
-    ::rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-optional-rpms":
-      require => Exec['RHSM-register'],
-    }
-  }
-
 }

@@ -4,6 +4,18 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v3.2.0](https://github.com/voxpupuli/puppet-rhsm/tree/v3.2.0) (2018-10-20)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v3.1.0...v3.2.0)
+
+**Implemented enhancements:**
+
+- Add a Array\[String\] argument of repo IDs to be enabled [\#78](https://github.com/voxpupuli/puppet-rhsm/pull/78) ([pdemonaco](https://github.com/pdemonaco))
+
+**Merged pull requests:**
+
+- modulesync 2.2.0 and allow puppet 6.x [\#79](https://github.com/voxpupuli/puppet-rhsm/pull/79) ([bastelfreak](https://github.com/bastelfreak))
+
 ## [v3.1.0](https://github.com/voxpupuli/puppet-rhsm/tree/v3.1.0) (2018-09-06)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v3.0.0...v3.1.0)

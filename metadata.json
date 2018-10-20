@@ -1,6 +1,6 @@
 {
   "name": "puppet-rhsm",
-  "version": "3.2.0",
+  "version": "3.2.1-rc0",
   "author": "Vox Pupuli",
   "summary": "Register with the RedHat Subscription Management",
   "license": "Apache-2.0",

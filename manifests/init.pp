@@ -159,9 +159,7 @@ class rhsm (
 
   unless(empty($enabled_repo_ids)) {
     $enabled_repo_ids.each | $repo_id | {
-      rhsm::repo { $repo_id:
-        require => Exec['RHSM-subscribe'],
-      }
+      rhsm::repo { $repo_id: }
     }
   }
 }

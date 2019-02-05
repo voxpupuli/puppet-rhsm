@@ -64,8 +64,8 @@ describe 'rhsm', type: :class do
 
         it { is_expected.to have_rhsm__repo_resource_count(2) }
 
-        it { is_expected.to contain_rhsm__repo('rhel-7-server-rpms').that_requires('Exec[RHSM-subscribe]') }
-        it { is_expected.to contain_rhsm__repo('rhel-7-server-optional-rpms').that_requires('Exec[RHSM-subscribe]') }
+        it { is_expected.to contain_rhsm__repo('rhel-7-server-rpms') }
+        it { is_expected.to contain_rhsm__repo('rhel-7-server-optional-rpms') }
       end
     end
   end

@@ -18,6 +18,7 @@ define rhsm::repo (
       exec { "RHSM-enable_${title}":
         command => "subscription-manager repos --enable ${title}",
         path    => '/bin:/usr/bin:/usr/sbin',
+        require => Exec['RHSM-subscribe'],
       }
     }
   }

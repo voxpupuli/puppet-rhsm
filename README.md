@@ -6,19 +6,32 @@
 
 1. [Description](#description)
 2. [Setup](#setup)
-3. [Usage](#usage)
-4. [Limitations](#limitations)
-5. [Development](#development)
+3. [Types](#types)
+4. [Usage](#usage)
+5. [Limitations](#limitations)
+6. [Development](#development)
 
 ## Description
 
-This module registers your systems with RedHat Subscription Management.
+This module registers your systems with Red Hat Subscription Management.
 
 ## Setup
 
 Just declare the module with parameters, or load the data from Hiera.
 
+## Types
+
+### rh_repo
+
+Manage yum repos via the subscription-manager.
+
+
+### rh_subscription
+
+Enable or disable RH subscriptions based on their pool ID.
+
 ## Usage
+
 ```puppet
 class { 'rhsm':
   rh_user     => 'myuser',
@@ -35,7 +48,24 @@ class { 'rhsm':
 }
 ```
 
+Use `rh_repo` type to add a repository:
+
+```puppet
+rh_repo { 'rhel-7-server-extras-rpms':
+ ensure => present,
+}
+```
+
+Use `rh_subscription` type to add or remove a subscription based on its pool ID:
+
+```puppet
+rh_subscription { '8e8e7f7a77554a776277ac6dca654':
+  ensure => present,
+}
+```
+
 ### Hiera (recommended)
+
 ```puppet
 include rhsm
 ```

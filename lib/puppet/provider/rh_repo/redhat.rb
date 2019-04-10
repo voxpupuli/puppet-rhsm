@@ -1,6 +1,6 @@
 # @author Craig Dunn crayfishx/puppet-rhsm
 Puppet::Type.type(:rh_repo).provide(:redhat) do
-  commands rhsm: '/sbin/subscription-manager'
+  commands rhsm: '/usr/sbin/subscription-manager'
   mk_resource_methods
 
   def self.repos

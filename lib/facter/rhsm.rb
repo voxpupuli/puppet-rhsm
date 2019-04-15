@@ -4,12 +4,12 @@ Facter.add(:rhsm, type: :aggregate) do
   end
 
   # List the currently enabled repositories
-  if File.exist? '/usr/bin/subscription-manager'
+  if File.exist? '/etc/yum.repos.d/redhat.repo'
     chunk(:enabled_repo_ids) do
       repos = Array.[]
-      repo_list = Facter::Core::Execution.exec("subscription-manager repos --list-enabled | awk '/Repo ID:/ {print $3}'")
-      repo_list.each_line do |line|
-        repos.push(line.strip)
+      repo_list = IniFile.load('/etc/yum.repos.d/redhat.repo')
+      repo_list.each_section do |section|
+        repos.push(section) if repo_list[section]['enabled'] == 1 || repo_list[section]['enabled'].nil?
       end
       { enabled_repo_ids: repos }
     end

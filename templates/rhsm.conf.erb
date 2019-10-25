@@ -33,9 +33,14 @@ proxy_password = <%= @proxy_password %>
 # host/domain suffix blacklist for proxy, if needed
 no_proxy =
 
+server_timeout = <%= @server_timeout %>
+
 [rhsm]
 # Content base URL:
 baseurl= <%= @baseurl %>
+
+# Repository metadata GPG key URL:
+repomd_gpg_url =
 
 # Server CA certificate location:
 ca_cert_dir = <%= @ca_cert_dir %>
@@ -64,6 +69,17 @@ pluginDir = /usr/share/rhsm-plugins
 # The directory to search for plugin configuration files
 pluginConfDir = /etc/rhsm/pluginconf.d
 
+# Manage automatic enabling of yum/dnf plugins (product-id, subscription-manager)
+auto_enable_yum_plugins = 1
+
+# Inotify is used for monitoring changes in directories with certificates.
+# Currently only the /etc/pki/consumer directory is monitored by the
+# rhsm.service. When this directory is mounted using a network file system
+# without inotify notification support (e.g. NFS), then disabling inotify
+# is strongly recommended. When inotify is disabled, periodical directory
+# polling is used instead.
+inotify = <%= @inotify %>
+
 [rhsmcertd]
 # Interval to run cert check (in minutes):
 certCheckInterval = 240
@@ -80,4 +96,3 @@ default_log_level = INFO
 # rhsm.connection = DEBUG
 # rhsm-app = DEBUG
 # rhsm-app.rhsmd = DEBUG
-

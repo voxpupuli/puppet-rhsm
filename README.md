@@ -21,12 +21,12 @@ Just declare the module with parameters, or load the data from Hiera.
 
 ## Types
 
-### rh_repo
+### rh\_repo
 
 Manage yum repos via the subscription-manager.
 
 
-### rh_subscription
+### rh\_subscription
 
 Enable or disable RH subscriptions based on their pool ID.
 
@@ -38,21 +38,12 @@ class { 'rhsm':
   rh_password => 'mypassword',
 }
 ```
-To attach the system to a specific pool (can be found on a registered system with `subscription-manager list --available`):
-
-```puppet
-class { 'rhsm':
-  rh_user     => 'myuser',
-  rh_password => 'mypassword',
-  pool        => 'the_pool_id'
-}
-```
 
 Use `rh_repo` type to add a repository:
 
 ```puppet
 rh_repo { 'rhel-7-server-extras-rpms':
- ensure => present,
+  ensure => present,
 }
 ```
 

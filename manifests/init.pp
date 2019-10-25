@@ -6,42 +6,39 @@
 #
 # @summary Subscribe the node to RHSM
 #
-# @param rh_user [String] User for the Customer Portal.
+# @param rh_user User for the Customer Portal.
 #   You need to specify either (rh_user and rh_password) or (org and activationkey)
-# @param rh_password [String] Password for the rh_user account
-# @param org [String] Organization to use
-# @param activationkey [String] Activationkey to use
-# @param servername [String] Servername, default provided
+# @param rh_password Password for the rh_user account
+# @param org Organization to use
+# @param activationkey Activationkey to use
+# @param servername Servername, default provided
 #   Used directly in rhsm.conf template
-# @param serverprefix [String] server.prefix to use
+# @param serverprefix server.prefix to use
 #   Used directly in rhsm.conf template
 #   /rhsm for Satellite 6
 #   /subscription for RHSM
-# @param serverport [Integer] server.port to use
+# @param serverport server.port to use
 #   Used directly in rhsm.conf template
-# @param ca_cert_dir [String] Server CA certificate location
-# @param repo_ca_cert_filename [String] File containting the CA cert to use when generating yum repo configs
+# @param ca_cert_dir Server CA certificate location
+# @param repo_ca_cert_filename File containting the CA cert to use when generating yum repo configs
 #   katello-server-ca.pem for Satellite 6
 #   redhat-uep.pem for RHSM
-# @param repo_ca_cert_source [String] URI, if set the content is used for CA file resource ${ca_cert_dir}/${repo_ca_cert_filename}
+# @param repo_ca_cert_source URI, if set the content is used for CA file resource ${ca_cert_dir}/${repo_ca_cert_filename}
 #   Possible values are puppet:, file: and http:
-# @param manage_repos [Integer] 1 if subscription manager should manage yum repos file or
+# @param manage_repos 1 if subscription manager should manage yum repos file or
 #   0 if the subscription is only used for tracking purposes
-# @param full_refresh_on_yum [Integer] rhsm.full_refresh_on_yum
+# @param full_refresh_on_yum rhsm.full_refresh_on_yum
 #   Used directly in rhsm.conf template
 #   1 for Satellite 6
 #   0 for RHSM
-# @param pool [String] Attach system to a specific pool instead of auto attach to compatible subscriptions
-# @param proxy_hostname [String] Proxy hostname
-# @param proxy_port [Integer] Proxy port
-# @param proxy_user [String] Proxy user
-# @param proxy_password [String] Proxy password
-# @param baseurl [String] Base URL for rhsm, default provided
-# @param package_ensure [String] Whether to install subscription-manager
-# @param enabled_repo_ids [Array[String]
-#   A listing of the Repo IDs to provide to the subscription-manager repo
-#   --enable command.
-#   
+# @param proxy_hostname Proxy hostname
+# @param proxy_port Proxy port
+# @param proxy_user Proxy user
+# @param proxy_password Proxy password
+# @param baseurl Base URL for rhsm, default provided
+# @param package_ensure Whether to install subscription-manager, directly passed to the `ensure` param of the package.
+# @param enabled_repo_ids A listing of the Repo IDs to provide to the subscription-manager repo --enable command.
+#
 # @example
 #   include rhsm
 #
@@ -54,27 +51,26 @@
 # @author Ger Apeldoorn <info@gerapeldoorn.nl>
 #
 class rhsm (
-  $rh_user                           = undef,
-  $rh_password                       = undef,
-  $org                               = undef,
-  $activationkey                     = undef,
-  $pool                              = undef,
-  $proxy_hostname                    = undef,
-  $proxy_port                        = undef,
-  $proxy_user                        = undef,
-  $proxy_password                    = undef,
-  $baseurl                           = 'https://cdn.redhat.com',
-  $servername                        = 'subscription.rhsm.redhat.com',
-  $serverprefix                      = '/subscription',
-  $serverport                        = 443,
-  $ca_cert_dir                       = '/etc/rhsm/ca/',
-  $repo_ca_cert_filename             = 'redhat-uep.pem',
-  $repo_ca_cert_source               = undef,
-  $manage_repos                      = 1,
-  $full_refresh_on_yum               = 0,
-  $package_ensure                    = 'latest',
-  Array[String[1]] $enabled_repo_ids = [],
-) {
+  Optional[String[1]]    $rh_user               = undef,
+  Optional[String[1]]    $rh_password           = undef,
+  Optional[String[1]]    $org                   = undef,
+  Optional[String[1]]    $activationkey         = undef,
+  Optional[Stdlib::Fqdn] $proxy_hostname        = undef,
+  Optional[Stdlib::Port] $proxy_port            = undef,
+  Optional[String[1]]    $proxy_user            = undef,
+  Optional[String[1]]    $proxy_password        = undef,
+  Stdlib::Httpurl        $baseurl               = 'https://cdn.redhat.com',
+  Stdlib::Fqdn           $servername            = 'subscription.rhsm.redhat.com',
+  Stdlib::Absolutepath   $serverprefix          = '/subscription',
+  Stdlib::Port           $serverport            = 443,
+  Stdlib::Absolutepath   $ca_cert_dir           = '/etc/rhsm/ca/',
+  String[1]              $repo_ca_cert_filename = 'redhat-uep.pem',
+  Optional[String[1]]    $repo_ca_cert_source   = undef,
+  Integer[0,1]           $manage_repos          = 1,
+  Integer[0,1]           $full_refresh_on_yum   = 0,
+  String[1]              $package_ensure        = 'installed',
+  Array[String[1]]       $enabled_repo_ids      = [],
+){
 
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
     fail("${module_name}: Must provide rh_user and rh_password or org and activationkey")
@@ -114,52 +110,40 @@ class rhsm (
     $proxycli = ''
   }
 
-  if $pool == undef {
-    $command = "subscription-manager attach --auto${proxycli}"
-  } else {
-    $command = "subscription-manager attach --pool=${pool}${proxycli}"
-  }
-
   package { 'subscription-manager':
     ensure => $package_ensure,
   }
 
-  exec {'sm yum clean all':
-    command     => '/usr/bin/yum clean all',
-    refreshonly => true,
-    subscribe   => Package['subscription-manager'],
-  }
-
   file { '/etc/rhsm/rhsm.conf':
-    ensure  => file,
-    content => template('rhsm/rhsm.conf.erb'),
+    content => template("${module_name}/rhsm.conf.erb"),
+    require => Package['subscription-manager'],
+    notify  => Service['rhsmcertd'],
   }
 
   if $repo_ca_cert_source {
     file { "${ca_cert_dir}/${repo_ca_cert_filename}":
-      ensure => present,
-      mode   => '0644',
-      source => $repo_ca_cert_source,
+      source  => $repo_ca_cert_source,
+      mode    => '0644',
+      require => Package['subscription-manager'],
+      before  => File['/etc/rhsm/rhsm.conf'],
     }
+  }
+
+  rh_repo { $enabled_repo_ids:
+    ensure => present,
   }
 
   exec { 'RHSM-register':
     command => "subscription-manager register --name='${::fqdn}'${_user}${_password}${_org}${_activationkey}${proxycli}",
-    onlyif  => 'subscription-manager identity 2>&1 | grep "not yet registered"',
+    creates => '/etc/pki/consumer/cert.pem',
     path    => '/bin:/usr/bin:/usr/sbin',
-    require => Package['subscription-manager'],
+    require => File['/etc/rhsm/rhsm.conf'],
   }
+  -> Rh_subscription <||>
+  -> Rh_repo <||>
 
-  exec { 'RHSM-subscribe':
-    command => $command,
-    onlyif  => 'subscription-manager list 2>&1 | grep "Expired\|Not Subscribed\|Unknown"',
-    path    => '/bin:/usr/bin:/usr/sbin',
-    require => Exec['RHSM-register'],
-  }
-
-  unless(empty($enabled_repo_ids)) {
-    $enabled_repo_ids.each | $repo_id | {
-      rhsm::repo { $repo_id: }
-    }
+  service { 'rhsmcertd':
+    ensure => running,
+    enable => true,
   }
 }

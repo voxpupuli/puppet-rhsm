@@ -7,10 +7,6 @@
 
 * [`rhsm`](#rhsm): Subscribe the node to RHSM
 
-**Defined types**
-
-* [`rhsm::repo`](#rhsmrepo): Manage additional RedHat repositories
-
 ## Classes
 
 ### rhsm
@@ -23,13 +19,13 @@ Copyright 2014 Ger Apeldoorn, unless otherwise noted.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
 include rhsm
 ```
 
-##### 
+#####
 
 ```puppet
 # Hierafile:
@@ -151,14 +147,6 @@ Used directly in rhsm.conf template
 
 Default value: 0
 
-##### `pool`
-
-Data type: `String`
-
-Attach system to a specific pool instead of auto attach to compatible subscriptions
-
-Default value: `undef`
-
 ##### `proxy_hostname`
 
 Data type: `String`
@@ -205,7 +193,7 @@ Data type: `String`
 
 Whether to install subscription-manager
 
-Default value: 'latest'
+Default value: 'installed'
 
 ##### `enabled_repo_ids`
 
@@ -217,21 +205,15 @@ A listing of the Repo IDs to provide to the subscription-manager repo
 
 Default value: []
 
-## Defined types
-
-### rhsm::repo
-
-rhsm::repo
-
-Target file is /etc/yum.repos.d/redhat.repo
-
 Copyright 2014 Ger Apeldoorn, unless otherwise noted.
 
 #### Examples
 
-##### 
+#####
 
 ```puppet
-::rhsm::repo { "rhel-${::operatingsystemmajrelease}-server-extras-rpms": }
+rh_repo { "rhel-${::operatingsystemmajrelease}-server-extras-rpms":
+  ensure => present,
+}
 ```
 

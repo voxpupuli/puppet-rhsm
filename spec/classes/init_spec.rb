@@ -21,16 +21,14 @@ describe 'rhsm', type: :class do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_package('subscription-manager') }
         it { is_expected.to contain_file('/etc/rhsm/rhsm.conf') }
-        it { is_expected.to contain_exec('sm yum clean all') }
+        it do
+          is_expected.to contain_service('rhsmcertd').with(
+            ensure: 'running', enable: 'true'
+          )
+        end
         it do
           is_expected.to contain_exec('RHSM-register').with(
             command: "subscription-manager register --name='#{facts[:fqdn]}' --username='username' --password='password'"
-          )
-        end
-
-        it do
-          is_expected.to contain_exec('RHSM-subscribe').with(
-            command: 'subscription-manager attach --auto'
           )
         end
       end
@@ -62,10 +60,10 @@ describe 'rhsm', type: :class do
           }
         end
 
-        it { is_expected.to have_rhsm__repo_resource_count(2) }
+        it { is_expected.to have_rh_repo_resource_count(2) }
 
-        it { is_expected.to contain_rhsm__repo('rhel-7-server-rpms') }
-        it { is_expected.to contain_rhsm__repo('rhel-7-server-optional-rpms') }
+        it { is_expected.to contain_rh_repo('rhel-7-server-rpms') }
+        it { is_expected.to contain_rh_repo('rhel-7-server-optional-rpms') }
       end
     end
   end

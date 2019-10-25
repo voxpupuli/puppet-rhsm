@@ -1,15 +1,18 @@
+require 'puppet/util/inifile'
+
 Facter.add(:rhsm, type: :aggregate) do
   confine :os do |os|
     os['family'] == 'RedHat'
   end
 
   # List the currently enabled repositories
-  if File.exist? '/usr/bin/subscription-manager'
+  if File.exist? '/etc/yum.repos.d/redhat.repo'
     chunk(:enabled_repo_ids) do
       repos = Array.[]
-      repo_list = Facter::Core::Execution.exec("subscription-manager repos --list-enabled | awk '/Repo ID:/ {print $3}'")
-      repo_list.each_line do |line|
-        repos.push(line.strip)
+      repo_file = Puppet::Util::IniConfig::PhysicalFile.new('/etc/yum.repos.d/redhat.repo')
+      repo_file.read
+      repo_file.sections.each do |section|
+        repos.push(section.name) if section['enabled'].nil? || section['enabled'].to_i == 1
       end
       { enabled_repo_ids: repos }
     end

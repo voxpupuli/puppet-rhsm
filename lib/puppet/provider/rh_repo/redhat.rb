@@ -1,18 +1,19 @@
+require 'puppet/util/inifile'
+
 # @author Craig Dunn crayfishx/puppet-rhsm
+# @author Stefan Peer speer/puppet-rhsm
+#   (do not run subscription-manager on every Puppet run)
 Puppet::Type.type(:rh_repo).provide(:redhat) do
   commands rhsm: '/usr/sbin/subscription-manager'
   mk_resource_methods
 
   def self.repos
     repos = {}
-    rhsm('repos', '--list').split("\n\n").each do |blk|
-      repo_data = {}
-      blk.split("\n").each do |line|
-        element = line.split(%r{:})
-        repo_data[element.shift] = element.join.lstrip
-      end
-      repos[repo_data['Repo ID']] = {
-        enabled: repo_data['Enabled']
+    repo_file = Puppet::Util::IniConfig::PhysicalFile.new('/etc/yum.repos.d/redhat.repo')
+    repo_file.read
+    repo_file.sections.each do |section|
+      repos[section.name] = {
+        enabled: section['enabled'].nil? || section['enabled'].to_i == 1
       }
     end
     repos
@@ -21,7 +22,7 @@ Puppet::Type.type(:rh_repo).provide(:redhat) do
   def self.instances
     repos.map do |rid, data|
       new(
-        ensure: data[:enabled] == '0' ? :disabled : :enabled,
+        ensure: data[:enabled] ? :enabled : :disabled,
         name:   rid
       )
     end

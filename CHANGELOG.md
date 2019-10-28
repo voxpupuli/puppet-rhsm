@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v4.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v4.0.0) (2019-10-28)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v3.2.0...v4.0.0)
+
+**Breaking changes:**
+
+- Eliminates subscription-manager exec on every Puppet run [\#95](https://github.com/voxpupuli/puppet-rhsm/pull/95) ([speer](https://github.com/speer))
+- modulesync 2.5.1 and drop Puppet 4 [\#84](https://github.com/voxpupuli/puppet-rhsm/pull/84) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Features request: SCL repos [\#66](https://github.com/voxpupuli/puppet-rhsm/issues/66)
+- Add types and providers from crayfishx/puppet-rhsm [\#88](https://github.com/voxpupuli/puppet-rhsm/pull/88) ([kallies](https://github.com/kallies))
+- Add defaults and make server\_timeout and inotify configurable [\#86](https://github.com/voxpupuli/puppet-rhsm/pull/86) ([kallies](https://github.com/kallies))
+- Move RHSM-subscribe dependency inside repo type [\#83](https://github.com/voxpupuli/puppet-rhsm/pull/83) ([speer](https://github.com/speer))
+
+**Closed issues:**
+
+- Don't enforce latest package to be installed as default value [\#92](https://github.com/voxpupuli/puppet-rhsm/issues/92)
+- Read facts from /etc/yum.repos.d/redhat.repo instead of subscription-manager [\#90](https://github.com/voxpupuli/puppet-rhsm/issues/90)
+- Use types and providers for subscriptions and repositories [\#87](https://github.com/voxpupuli/puppet-rhsm/issues/87)
+- Update rhsm.conf template [\#85](https://github.com/voxpupuli/puppet-rhsm/issues/85)
+
+**Merged pull requests:**
+
+- Allow `puppetlabs/stdlib` 6.x [\#93](https://github.com/voxpupuli/puppet-rhsm/pull/93) ([alexjfisher](https://github.com/alexjfisher))
+
 ## [v3.2.0](https://github.com/voxpupuli/puppet-rhsm/tree/v3.2.0) (2018-10-20)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v3.1.0...v3.2.0)

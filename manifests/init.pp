@@ -139,7 +139,7 @@ class rhsm (
   }
 
   exec { 'RHSM-register':
-    command => "subscription-manager register --name='${facts['networking']['fqdn']}'${_user}${_password}${_org}${_activationkey}${proxycli}",
+    command => Sensitive("subscription-manager register --name='${facts['networking']['fqdn']}'${_user}${_password}${_org}${_activationkey}${proxycli}"),
     creates => '/etc/pki/consumer/cert.pem',
     path    => '/bin:/usr/bin:/usr/sbin',
     require => File['/etc/rhsm/rhsm.conf'],

@@ -28,6 +28,19 @@ Facter.add(:rhsm, type: :aggregate) do
       { subscription_type: 'unknown' }
     end
   end
+
+  # Add satellite server information
+  if File.exist? '/etc/rhsm/rhsm.conf'
+    chunk(:server) do
+      server_file = Puppet::Util::IniConfig::PhysicalFile.new('/etc/rhsm/rhsm.conf')
+      server_file.read
+      if ( ! server_file.get_section('server') )
+        { server: 'unknown' }
+      end
+      server_conf = server_file.get_section('server').entries.select {|entry| entry.is_a?(Array)}.to_h
+      { server: server_conf }
+    end
+  end
 end
 
 # Backward compatibility

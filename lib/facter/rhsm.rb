@@ -34,10 +34,10 @@ Facter.add(:rhsm, type: :aggregate) do
     chunk(:server) do
       server_file = Puppet::Util::IniConfig::PhysicalFile.new('/etc/rhsm/rhsm.conf')
       server_file.read
-      if ( ! server_file.get_section('server') )
-        { server: 'unknown' }
-      end
-      server_conf = server_file.get_section('server').entries.select {|entry| entry.is_a?(Array)}.to_h
+
+      { server: 'unknown' } unless server_file.get_section('server')
+
+      server_conf = server_file.get_section('server').entries.select { |entry| entry.is_a?(Array) }.to_h
       { server: server_conf }
     end
   end

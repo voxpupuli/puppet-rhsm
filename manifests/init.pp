@@ -41,6 +41,15 @@
 # @param server_timeout HTTP timeout in seconds
 # @param inotify Inotify is used for monitoring changes in directories with certificates. When this directory is mounted using a network
 #   file system without inotify notification support (e.g. NFS), then disabling inotify is strongly recommended.
+# @param report_package_profile Set to 1 if rhsmcertd should report the system's current package profile to the subscription service.
+#   This report helps the subscription service provide better errata notifications. If supported by the entitlement
+#   server, enabled repos, enabled modules, and packages present will be reported. 
+#   This configuration also governs package profile reporting when the "dnf uploadprofile" command is executed.
+# @param package_profile_on_trans Set to 1 if the dnf/yum subscription-manager plugin should report the system's current package profile
+#   to the subscription service on execution of dnf/yum transactions (for example on package install). This report
+#   helps the subscription service provide better errata notifications. If supported by the entitlement server, enabled repos, enabled modules,
+#   and packages present will be reported. The report_package_profile option
+#   needs to also be set to 1 for this option to have any effect.
 #
 # @example
 #   include rhsm
@@ -61,20 +70,22 @@ class rhsm (
   Optional[Stdlib::Fqdn] $proxy_hostname        = undef,
   Optional[Stdlib::Port] $proxy_port            = undef,
   Optional[String[1]]    $proxy_user            = undef,
-  Optional[String[1]]    $proxy_password        = undef,
-  Stdlib::Httpurl        $baseurl               = 'https://cdn.redhat.com',
-  Stdlib::Fqdn           $servername            = 'subscription.rhsm.redhat.com',
-  Stdlib::Absolutepath   $serverprefix          = '/subscription',
-  Stdlib::Port           $serverport            = 443,
-  Stdlib::Absolutepath   $ca_cert_dir           = '/etc/rhsm/ca/',
-  String[1]              $repo_ca_cert_filename = 'redhat-uep.pem',
-  Optional[String[1]]    $repo_ca_cert_source   = undef,
-  Integer[0,1]           $manage_repos          = 1,
-  Integer[0,1]           $full_refresh_on_yum   = 0,
-  String[1]              $package_ensure        = 'installed',
-  Array[String[1]]       $enabled_repo_ids      = [],
-  Integer[0,1]           $inotify               = 1,
-  Integer[0]             $server_timeout        = 180,
+  Optional[String[1]]    $proxy_password           = undef,
+  Stdlib::Httpurl        $baseurl                  = 'https://cdn.redhat.com',
+  Stdlib::Fqdn           $servername               = 'subscription.rhsm.redhat.com',
+  Stdlib::Absolutepath   $serverprefix             = '/subscription',
+  Stdlib::Port           $serverport               = 443,
+  Stdlib::Absolutepath   $ca_cert_dir              = '/etc/rhsm/ca/',
+  String[1]              $repo_ca_cert_filename    = 'redhat-uep.pem',
+  Optional[String[1]]    $repo_ca_cert_source      = undef,
+  Integer[0,1]           $manage_repos             = 1,
+  Integer[0,1]           $full_refresh_on_yum      = 0,
+  String[1]              $package_ensure           = 'installed',
+  Array[String[1]]       $enabled_repo_ids         = [],
+  Integer[0,1]           $inotify                  = 1,
+  Integer[0]             $server_timeout           = 180,
+  Integer[0,1]           $report_package_profile   = 1,
+  Integer[0,1]           $package_profile_on_trans = 0,
 ){
 
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {

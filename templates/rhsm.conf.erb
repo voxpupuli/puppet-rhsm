@@ -80,6 +80,12 @@ auto_enable_yum_plugins = 1
 # polling is used instead.
 inotify = <%= @inotify %>
 
+# Manage automatic enabling of yum/dnf plugins (product-id, subscription-manager)
+auto_enable_yum_plugins = <%= @eport_package_profile %>
+
+# Run the package profile on each yum/dnf transaction
+package_profile_on_trans = <%= @package_profile_on_trans %>
+
 [rhsmcertd]
 # Interval to run cert check (in minutes):
 certCheckInterval = 240

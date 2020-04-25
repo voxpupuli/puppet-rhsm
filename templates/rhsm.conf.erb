@@ -88,6 +88,10 @@ autoAttachInterval = 1440
 # If set to zero, the checks done by the rhsmcertd daemon will not be splayed (randomly offset)
 splay = 1
 
+[rhsmd]
+# The time in seconds we will allow the rhsmd cron job to run before terminating the process.
+processTimeout = <%= @process_timeout %>
+
 [logging]
 default_log_level = INFO
 # subscription_manager = DEBUG

@@ -41,6 +41,8 @@
 # @param server_timeout HTTP timeout in seconds
 # @param inotify Inotify is used for monitoring changes in directories with certificates. When this directory is mounted using a network
 #   file system without inotify notification support (e.g. NFS), then disabling inotify is strongly recommended.
+# @param process_timeout
+#   The time in seconds we will allow the rhsmd cron job to run before terminating the process.
 #
 # @example
 #   include rhsm
@@ -75,6 +77,7 @@ class rhsm (
   Array[String[1]]       $enabled_repo_ids      = [],
   Integer[0,1]           $inotify               = 1,
   Integer[0]             $server_timeout        = 180,
+  Integer[0]             $process_timeout       = 300,
 ){
 
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {

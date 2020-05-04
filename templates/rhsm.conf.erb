@@ -80,6 +80,12 @@ auto_enable_yum_plugins = 1
 # polling is used instead.
 inotify = <%= @inotify %>
 
+# Manage reporting the system's current package profile to the subscription service.
+report_package_profile = <%= @report_package_profile %>
+
+# Set to 1 if the dnf/yum subscription-manager plugin should report the system's current package profile.
+package_profile_on_trans = <%= @package_profile_on_trans %>
+
 [rhsmcertd]
 # Interval to run cert check (in minutes):
 certCheckInterval = 240

@@ -75,8 +75,7 @@ class rhsm (
   Array[String[1]]       $enabled_repo_ids      = [],
   Integer[0,1]           $inotify               = 1,
   Integer[0]             $server_timeout        = 180,
-){
-
+) {
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
     fail("${module_name}: Must provide rh_user and rh_password or org and activationkey")
   }

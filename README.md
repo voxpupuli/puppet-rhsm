@@ -78,7 +78,7 @@ class { 'rhsm':
   rh_password    => 'mypassword',
 }
 ```
-You shouldn't specify the protocol, subscription-manager will use HTTP. For proxies with authentication, specify the `proxy_user` and `proxy_password` values.
+If you don't specify the protocol, subscription-manager will use HTTP. If you want to connect via HTTPS, set the `proxy_scheme` to `https`. For proxies with authentication, specify the `proxy_user` and `proxy_password` values.
 
 The proxy settings will be used to register the system and as connection option for all the YUM repositories generated in `/etc/yum.repos.d/redhat.repo`
 

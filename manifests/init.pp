@@ -32,6 +32,7 @@
 #   1 for Satellite 6
 #   0 for RHSM
 # @param proxy_hostname Proxy hostname
+# @param proxy_scheme Proxy scheme
 # @param proxy_port Proxy port
 # @param proxy_user Proxy user
 # @param proxy_password Proxy password
@@ -61,6 +62,7 @@ class rhsm (
   Optional[String[1]]    $org                   = undef,
   Optional[String[1]]    $activationkey         = undef,
   Optional[Stdlib::Fqdn] $proxy_hostname        = undef,
+  Optional[String[1]]    $proxy_scheme          = 'http',
   Optional[Stdlib::Port] $proxy_port            = undef,
   Optional[String[1]]    $proxy_user            = undef,
   Optional[String[1]]    $proxy_password        = undef,
@@ -109,9 +111,9 @@ class rhsm (
 
   if $proxy_hostname {
     if $proxy_user and $proxy_password {
-      $proxycli = " --proxy=http://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+      $proxycli = " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
     } else {
-      $proxycli = " --proxy=http://${proxy_hostname}:${proxy_port}"
+      $proxycli = " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port}"
     }
   } else {
     $proxycli = ''

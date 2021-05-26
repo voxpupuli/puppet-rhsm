@@ -72,8 +72,8 @@ describe 'rhsm', type: :class do
             org: 'org',
             activationkey: 'key',
             proxy_hostname: 'proxy.example.com',
-            proxy_scheme: 'https'
-            proxy_port: 443,
+            proxy_scheme: 'https',
+            proxy_port: 443
           }
         end
 

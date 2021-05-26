@@ -65,6 +65,27 @@ describe 'rhsm', type: :class do
         it { is_expected.to contain_rh_repo('rhel-7-server-rpms') }
         it { is_expected.to contain_rh_repo('rhel-7-server-optional-rpms') }
       end
+
+      context 'with proxy scheme set to https' do
+        let(:params) do
+          {
+            org: 'org',
+            activationkey: 'key',
+            proxy_hostname: 'proxy.example.com',
+            proxy_scheme: 'https'
+          }
+        end
+ 
+        it do
+          is_expected.to contain_exec('RHSM-register').with(
+            command: %r{--proxy=https://}
+          )
+        end
+
+        it do
+          is_expected.to contain_file('/etc/rhsm/rhsm.conf').with_content(%r{^proxy_scheme = https$})
+        end
+      end
     end
   end
 end

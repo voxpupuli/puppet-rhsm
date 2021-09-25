@@ -4,7 +4,31 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v4.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v4.0.0) (2019-10-28)
+## [v4.1.0](https://github.com/voxpupuli/puppet-rhsm/tree/v4.1.0) (2021-09-25)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v4.0.0...v4.1.0)
+
+**Implemented enhancements:**
+
+- Enable Puppet 7 support [\#115](https://github.com/voxpupuli/puppet-rhsm/pull/115) ([bastelfreak](https://github.com/bastelfreak))
+- add proxy\_scheme \(defaults to 'http'\) [\#112](https://github.com/voxpupuli/puppet-rhsm/pull/112) ([jorgemorgado](https://github.com/jorgemorgado))
+- Add process\_timeout parameter [\#105](https://github.com/voxpupuli/puppet-rhsm/pull/105) ([treydock](https://github.com/treydock))
+- Add server info to facts [\#103](https://github.com/voxpupuli/puppet-rhsm/pull/103) ([yakatz](https://github.com/yakatz))
+- Add Sensitive to RHSM exec and update metadata [\#96](https://github.com/voxpupuli/puppet-rhsm/pull/96) ([rcalixte](https://github.com/rcalixte))
+
+**Fixed bugs:**
+
+- fix: use sensitive\(\) for rspec-puppet 2.8 [\#113](https://github.com/voxpupuli/puppet-rhsm/pull/113) ([raphink](https://github.com/raphink))
+
+**Closed issues:**
+
+- Yumrepo target parameter does not work [\#68](https://github.com/voxpupuli/puppet-rhsm/issues/68)
+
+**Merged pull requests:**
+
+- Allow stdlib 8.0.0 [\#114](https://github.com/voxpupuli/puppet-rhsm/pull/114) ([smortex](https://github.com/smortex))
+
+## [v4.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v4.0.0) (2020-01-15)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v3.2.0...v4.0.0)
 
@@ -29,6 +53,7 @@ These should not affect the functionality of the module.
 
 **Merged pull requests:**
 
+- travis: dont upgrade bundler [\#99](https://github.com/voxpupuli/puppet-rhsm/pull/99) ([bastelfreak](https://github.com/bastelfreak))
 - Allow `puppetlabs/stdlib` 6.x [\#93](https://github.com/voxpupuli/puppet-rhsm/pull/93) ([alexjfisher](https://github.com/alexjfisher))
 
 ## [v3.2.0](https://github.com/voxpupuli/puppet-rhsm/tree/v3.2.0) (2018-10-20)

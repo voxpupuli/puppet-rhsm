@@ -1,6 +1,13 @@
 # rhsm
 
-[![Build Status](https://travis-ci.org/voxpupuli/puppet-rhsm.png?branch=master)](https://travis-ci.org/voxpupuli/puppet-rhsm) [![Version](https://img.shields.io/puppetforge/v/puppet/rhsm.svg)](https://forge.puppet.com/puppet/rhsm)
+[![Build Status](https://github.com/voxpupuli/puppet-rhsm/workflows/CI/badge.svg)](https://github.com/voxpupuli/puppet-rhsm/actions?query=workflow%3ACI)
+[![Release](https://github.com/voxpupuli/puppet-rhsm/actions/workflows/release.yml/badge.svg)](https://github.com/voxpupuli/puppet-rhsm/actions/workflows/release.yml)
+[![Puppet Forge](https://img.shields.io/puppetforge/v/puppet/rhsm.svg)](https://forge.puppetlabs.com/puppet/rhsm)
+[![Puppet Forge - downloads](https://img.shields.io/puppetforge/dt/puppet/rhsm.svg)](https://forge.puppetlabs.com/puppet/rhsm)
+[![Puppet Forge - endorsement](https://img.shields.io/puppetforge/e/puppet/rhsm.svg)](https://forge.puppetlabs.com/puppet/rhsm)
+[![Puppet Forge - scores](https://img.shields.io/puppetforge/f/puppet/rhsm.svg)](https://forge.puppetlabs.com/puppet/rhsm)
+[![puppetmodule.info docs](http://www.puppetmodule.info/images/badge.png)](http://www.puppetmodule.info/m/puppet-rhsm)
+[![Apache-2.0 License](https://img.shields.io/github/license/voxpupuli/puppet-rhsm.svg)](LICENSE)
 
 #### Table of Contents
 

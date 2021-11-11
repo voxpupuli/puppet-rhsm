@@ -92,7 +92,7 @@ describe 'rhsm', type: :class do
         let(:params) do
           {
             org: 'org',
-            activationkey: 'key,'
+            activationkey: 'key',
             no_proxy: 'proxy.local'
           }
         end

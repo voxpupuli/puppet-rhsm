@@ -60,6 +60,7 @@ The following parameters are available in the `rhsm` class:
 * [`proxy_scheme`](#proxy_scheme)
 * [`proxy_port`](#proxy_port)
 * [`proxy_user`](#proxy_user)
+* [`no_proxy`](#no_Proxy)
 * [`proxy_password`](#proxy_password)
 * [`baseurl`](#baseurl)
 * [`package_ensure`](#package_ensure)
@@ -214,6 +215,14 @@ Default value: ``undef``
 Data type: `Optional[String[1]]`
 
 Proxy password
+
+Default value: ``undef``
+
+##### <a name="no_proxy"></a>`no_proxy`
+
+Data type: `Optional[String[1]]`
+
+no_proxy definition
 
 Default value: ``undef``
 

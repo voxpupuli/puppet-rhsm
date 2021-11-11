@@ -36,6 +36,7 @@
 # @param proxy_port Proxy port
 # @param proxy_user Proxy user
 # @param proxy_password Proxy password
+# @param no_proxy no_proxy definition
 # @param baseurl Base URL for rhsm, default provided
 # @param package_ensure Whether to install subscription-manager, directly passed to the `ensure` param of the package.
 # @param enabled_repo_ids A listing of the Repo IDs to provide to the subscription-manager repo --enable command.
@@ -66,6 +67,7 @@ class rhsm (
   Optional[Stdlib::Port] $proxy_port            = undef,
   Optional[String[1]]    $proxy_user            = undef,
   Optional[String[1]]    $proxy_password        = undef,
+  Optional[String[1]]    $no_proxy              = undef,
   Stdlib::Httpurl        $baseurl               = 'https://cdn.redhat.com',
   Stdlib::Fqdn           $servername            = 'subscription.rhsm.redhat.com',
   Stdlib::Absolutepath   $serverprefix          = '/subscription',

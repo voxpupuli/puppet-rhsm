@@ -91,6 +91,8 @@ describe 'rhsm', type: :class do
       context 'with no_proxy set to proxy.local' do
         let(:params) do
           {
+            org: 'org',
+            activationkey: 'key,'
             no_proxy: 'proxy.local'
           }
         end

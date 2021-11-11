@@ -87,6 +87,20 @@ describe 'rhsm', type: :class do
           is_expected.to contain_file('/etc/rhsm/rhsm.conf').with_content(%r{^proxy_scheme = https$})
         end
       end
+
+      context 'with no_proxy set to proxy.local' do
+        let(:params) do
+          {
+            org: 'org',
+            activationkey: 'key',
+            no_proxy: 'proxy.local'
+          }
+        end
+
+        it do
+          is_expected.to contain_file('/etc/rhsm/rhsm.conf').with_content(%r{^no_proxy = proxy.local$})
+        end
+      end
     end
   end
 end

@@ -86,6 +86,7 @@ class { 'rhsm':
 }
 ```
 If you don't specify the protocol, subscription-manager will use HTTP. If you want to connect via HTTPS, set the `proxy_scheme` to `https`. For proxies with authentication, specify the `proxy_user` and `proxy_password` values.
+Depending on your environment, you also migh need to set the `no_proxy` value.
 
 The proxy settings will be used to register the system and as connection option for all the YUM repositories generated in `/etc/yum.repos.d/redhat.repo`
 

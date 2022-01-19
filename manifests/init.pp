@@ -83,7 +83,7 @@ class rhsm (
   Integer[0]             $server_timeout        = 180,
   Integer[0]             $process_timeout       = 300,
 ) {
-  if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
+  if ($rh_user == undef and $rh_password == undef) or ($org == undef and $activationkey == undef) {
     fail("${module_name}: Must provide rh_user and rh_password or org and activationkey")
   }
 

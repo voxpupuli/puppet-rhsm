@@ -60,14 +60,15 @@ The following parameters are available in the `rhsm` class:
 * [`proxy_scheme`](#proxy_scheme)
 * [`proxy_port`](#proxy_port)
 * [`proxy_user`](#proxy_user)
-* [`no_proxy`](#no_Proxy)
 * [`proxy_password`](#proxy_password)
+* [`no_proxy`](#no_proxy)
 * [`baseurl`](#baseurl)
 * [`package_ensure`](#package_ensure)
 * [`enabled_repo_ids`](#enabled_repo_ids)
 * [`server_timeout`](#server_timeout)
 * [`inotify`](#inotify)
 * [`process_timeout`](#process_timeout)
+* [`plugin_settings`](#plugin_settings)
 
 ##### <a name="rh_user"></a>`rh_user`
 
@@ -274,6 +275,14 @@ Data type: `Integer[0]`
 The time in seconds we will allow the rhsmd cron job to run before terminating the process.
 
 Default value: `300`
+
+##### <a name="plugin_settings"></a>`plugin_settings`
+
+Data type: `Hash`
+
+Hash of {section => {key => value } } for the yum/dnf plugin.
+
+Default value: `{ 'main' => { 'enabled' => 1 } }`
 
 ## Resource types
 

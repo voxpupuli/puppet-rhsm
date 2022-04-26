@@ -137,6 +137,17 @@ class { 'rhsm':
 * Multiple Activationkeys might be provided, separated by comma.
 * Download the corresponding certificate from your Satellite (<https://satellite.example.com/pub/katelllo-server-ca.crt>) and publish it, e.g. with a (profile) module.
 
+### Dnf/Yum plugin configuration
+
+You can also configure the dnf/yum plugin via the `$plugin_settings` parameter.
+
+```hiera
+rhsm::plugin_settings:
+  main:
+    enabled:1
+    disable_system_repos:1
+```
+
 ## Limitations
 
 Well, only RedHat is supported :)

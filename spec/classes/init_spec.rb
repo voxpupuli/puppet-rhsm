@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 describe 'rhsm', type: :class do
   on_supported_os.each do |os, facts|
-    context "on supported OS #{os} " do
+    context "on supported OS #{os}" do
       let :facts do
         facts
       end
@@ -21,11 +23,13 @@ describe 'rhsm', type: :class do
         it { is_expected.to compile.with_all_deps }
         it { is_expected.to contain_package('subscription-manager') }
         it { is_expected.to contain_file('/etc/rhsm/rhsm.conf') }
+
         it do
           is_expected.to contain_service('rhsmcertd').with(
             ensure: 'running', enable: 'true'
           )
         end
+
         it do
           is_expected.to contain_exec('RHSM-register').with(
             command: sensitive("subscription-manager register --name='#{facts[:fqdn]}' --username='username' --password='password'")

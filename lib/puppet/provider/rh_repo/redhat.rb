@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'puppet/util/inifile'
 
 # @author Craig Dunn crayfishx/puppet-rhsm
@@ -23,7 +25,7 @@ Puppet::Type.type(:rh_repo).provide(:redhat) do
     repos.map do |rid, data|
       new(
         ensure: data[:enabled] ? :enabled : :disabled,
-        name:   rid
+        name: rid
       )
     end
   end

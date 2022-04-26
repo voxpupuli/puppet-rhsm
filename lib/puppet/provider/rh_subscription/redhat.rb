@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @author Craig Dunn crayfishx/puppet-rhsm
 # @author Stefan Peer speer/puppet-rhsm
 #   (do not run subscription-manager on every Puppet run)
@@ -92,6 +94,7 @@ Puppet::Type.type(:rh_subscription).provide(:redhat) do
     subs = {}
     Dir.glob('/etc/pki/entitlement/*.pem') do |cert|
       next if cert =~ %r{-key.pem$}
+
       cert_raw_data = rct('cat-cert', cert)
       sub_data = {}
       section = nil
@@ -101,6 +104,7 @@ Puppet::Type.type(:rh_subscription).provide(:redhat) do
           sub_data[section] = {}
         end
         next if section.nil?
+
         sub_data[section][Regexp.last_match(1).strip] = Regexp.last_match(2).strip if line =~ %r{^\s+([^:]+):(.+)$}
       end
       subs[sub_data['Certificate']['Pool ID']] = {
@@ -115,7 +119,7 @@ Puppet::Type.type(:rh_subscription).provide(:redhat) do
     subscriptions.map do |pool, data|
       new(
         ensure: :present,
-        name:   pool,
+        name: pool,
         serial: data[:serial]
       )
     end

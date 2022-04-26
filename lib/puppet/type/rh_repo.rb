@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # @author Craig Dunn crayfishx/puppet-rhsm
 Puppet::Type.newtype(:rh_repo) do
   @doc = 'Manage Red Hat subscriptions'

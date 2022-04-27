@@ -4,7 +4,20 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v4.1.0](https://github.com/voxpupuli/puppet-rhsm/tree/v4.1.0) (2021-09-25)
+## [v5.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v5.0.0) (2022-04-27)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v4.1.0...v5.0.0)
+
+**Breaking changes:**
+
+- modulesync 5.2.0 / Drop EoL Puppet 5 support [\#118](https://github.com/voxpupuli/puppet-rhsm/pull/118) ([bastelfreak](https://github.com/bastelfreak))
+
+**Implemented enhancements:**
+
+- Add way to configure the dnf/yum plugin [\#121](https://github.com/voxpupuli/puppet-rhsm/pull/121) ([jcpunk](https://github.com/jcpunk))
+- add no\_proxy to rhsm.conf, defaults to undef [\#117](https://github.com/voxpupuli/puppet-rhsm/pull/117) ([darktim](https://github.com/darktim))
+
+## [v4.1.0](https://github.com/voxpupuli/puppet-rhsm/tree/v4.1.0) (2021-09-27)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v4.0.0...v4.1.0)
 

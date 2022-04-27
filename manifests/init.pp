@@ -45,6 +45,8 @@
 #   file system without inotify notification support (e.g. NFS), then disabling inotify is strongly recommended.
 # @param process_timeout
 #   The time in seconds we will allow the rhsmd cron job to run before terminating the process.
+# @param plugin_settings
+#   Hash of {section => {key => value } } for the yum/dnf plugin.
 #
 # @example
 #   include rhsm
@@ -82,6 +84,7 @@ class rhsm (
   Integer[0,1]           $inotify               = 1,
   Integer[0]             $server_timeout        = 180,
   Integer[0]             $process_timeout       = 300,
+  Hash                   $plugin_settings       = { 'main' => { 'enabled' => 1 } }
 ) {
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
     fail("${module_name}: Must provide rh_user and rh_password or org and activationkey")
@@ -129,6 +132,19 @@ class rhsm (
     content => template("${module_name}/rhsm.conf.erb"),
     require => Package['subscription-manager'],
     notify  => Service['rhsmcertd'],
+  }
+
+  unless empty($plugin_settings) {
+    if $facts['os']['release']['major'] < '8' {
+      $plugin_path = '/etc/yum/pluginconf.d/subscription-manager.conf'
+    } else {
+      $plugin_path = '/etc/dnf/plugins/subscription-manager.conf'
+    }
+
+    file { $plugin_path:
+      content => epp("${module_name}/ini.conf.epp", { 'stanzas' => $plugin_settings }),
+      require => Package['subscription-manager'],
+    }
   }
 
   if $repo_ca_cert_source {

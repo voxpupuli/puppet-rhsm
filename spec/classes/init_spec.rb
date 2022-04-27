@@ -35,6 +35,20 @@ describe 'rhsm', type: :class do
             command: sensitive("subscription-manager register --name='#{facts[:fqdn]}' --username='username' --password='password'")
           )
         end
+
+        if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'] < '8'
+          it do
+            is_expected.to contain_file('/etc/yum/pluginconf.d/subscription-manager.conf').
+              with_content(%r{^\[main\]$}).
+              with_content(%r{^enabled=1$})
+          end
+        else
+          it do
+            is_expected.to contain_file('/etc/dnf/plugins/subscription-manager.conf').
+              with_content(%r{^\[main\]$}).
+              with_content(%r{^enabled=1$})
+          end
+        end
       end
 
       context 'with provided org and activation key' do
@@ -103,6 +117,33 @@ describe 'rhsm', type: :class do
 
         it do
           is_expected.to contain_file('/etc/rhsm/rhsm.conf').with_content(%r{^no_proxy = proxy.local$})
+        end
+      end
+
+      context 'with specific plugin options' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            plugin_settings: { 'main' => { 'enabled' => 0, 'disable_system_repos' => 1 } }
+          }
+        end
+
+        if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'] < '8'
+          # disable_system_repos doesn't actually do anything on EL6 or 7
+          it do
+            is_expected.to contain_file('/etc/yum/pluginconf.d/subscription-manager.conf').
+              with_content(%r{^\[main\]$}).
+              with_content(%r{^enabled=0$}).
+              with_content(%r{^disable_system_repos=1$})
+          end
+        else
+          it do
+            is_expected.to contain_file('/etc/dnf/plugins/subscription-manager.conf').
+              with_content(%r{^\[main\]$}).
+              with_content(%r{^enabled=0$}).
+              with_content(%r{^disable_system_repos=1$})
+          end
         end
       end
     end

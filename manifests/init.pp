@@ -142,6 +142,10 @@ class rhsm (
     }
 
     file { $plugin_path:
+      ensure  => 'file',
+      owner   => 'root',
+      group   => 'root',
+      mode    => '0644',
       content => epp("${module_name}/ini.conf.epp", { 'stanzas' => $plugin_settings }),
       require => Package['subscription-manager'],
     }

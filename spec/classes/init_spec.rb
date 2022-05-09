@@ -24,6 +24,7 @@ describe 'rhsm', type: :class do
         it { is_expected.to contain_package('subscription-manager') }
         it { is_expected.to contain_file('/etc/rhsm/rhsm.conf') }
         it { is_expected.to contain_file('/etc/yum.repos.d/redhat.repo') }
+        it { is_expected.to contain_file('/etc/rhsm/rhsm.conf').with_content(%r{^package_profile_on_trans = 0$}) }
 
         it do
           is_expected.to contain_service('rhsmcertd').with(

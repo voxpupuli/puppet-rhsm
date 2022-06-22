@@ -45,6 +45,8 @@
 #   file system without inotify notification support (e.g. NFS), then disabling inotify is strongly recommended.
 # @param process_timeout
 #   The time in seconds we will allow the rhsmd cron job to run before terminating the process.
+# @param repo_filename
+#   The name of the repo file subscription-manager uses.
 # @param plugin_settings
 #   Hash of {section => {key => value } } for the yum/dnf plugin.
 #
@@ -84,6 +86,7 @@ class rhsm (
   Integer[0,1]           $inotify               = 1,
   Integer[0]             $server_timeout        = 180,
   Integer[0]             $process_timeout       = 300,
+  Stdlib::Absolutepath   $repo_filename         = '/etc/yum.repos.d/redhat.repo',
   Hash                   $plugin_settings       = { 'main' => { 'enabled' => 1 } }
 ) {
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
@@ -132,6 +135,16 @@ class rhsm (
     content => template("${module_name}/rhsm.conf.erb"),
     require => Package['subscription-manager'],
     notify  => Service['rhsmcertd'],
+  }
+
+  if $package_ensure == 'absent' {
+    file { $repo_filename:
+      ensure => 'absent',
+    }
+  } else {
+    file { $repo_filename:
+      ensure => 'file',
+    }
   }
 
   unless empty($plugin_settings) {

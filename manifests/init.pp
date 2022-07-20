@@ -49,6 +49,7 @@
 #   The name of the repo file subscription-manager uses.
 # @param plugin_settings
 #   Hash of {section => {key => value } } for the yum/dnf plugin.
+# @param package_profile_on_trans Run the package profile on each yum/dnf transaction 
 #
 # @example
 #   include rhsm
@@ -62,32 +63,33 @@
 # @author Ger Apeldoorn <info@gerapeldoorn.nl>
 #
 class rhsm (
-  Optional[String[1]]    $rh_user               = undef,
-  Optional[String[1]]    $rh_password           = undef,
-  Optional[String[1]]    $org                   = undef,
-  Optional[String[1]]    $activationkey         = undef,
-  Optional[Stdlib::Fqdn] $proxy_hostname        = undef,
-  Enum['http', 'https']  $proxy_scheme          = 'http',
-  Optional[Stdlib::Port] $proxy_port            = undef,
-  Optional[String[1]]    $proxy_user            = undef,
-  Optional[String[1]]    $proxy_password        = undef,
-  Optional[String[1]]    $no_proxy              = undef,
-  Stdlib::Httpurl        $baseurl               = 'https://cdn.redhat.com',
-  Stdlib::Fqdn           $servername            = 'subscription.rhsm.redhat.com',
-  Stdlib::Absolutepath   $serverprefix          = '/subscription',
-  Stdlib::Port           $serverport            = 443,
-  Stdlib::Absolutepath   $ca_cert_dir           = '/etc/rhsm/ca/',
-  String[1]              $repo_ca_cert_filename = 'redhat-uep.pem',
-  Optional[String[1]]    $repo_ca_cert_source   = undef,
-  Integer[0,1]           $manage_repos          = 1,
-  Integer[0,1]           $full_refresh_on_yum   = 0,
-  String[1]              $package_ensure        = 'installed',
-  Array[String[1]]       $enabled_repo_ids      = [],
-  Integer[0,1]           $inotify               = 1,
-  Integer[0]             $server_timeout        = 180,
-  Integer[0]             $process_timeout       = 300,
-  Stdlib::Absolutepath   $repo_filename         = '/etc/yum.repos.d/redhat.repo',
-  Hash                   $plugin_settings       = { 'main' => { 'enabled' => 1 } }
+  Optional[String[1]]    $rh_user                  = undef,
+  Optional[String[1]]    $rh_password              = undef,
+  Optional[String[1]]    $org                      = undef,
+  Optional[String[1]]    $activationkey            = undef,
+  Optional[Stdlib::Fqdn] $proxy_hostname           = undef,
+  Enum['http', 'https']  $proxy_scheme             = 'http',
+  Optional[Stdlib::Port] $proxy_port               = undef,
+  Optional[String[1]]    $proxy_user               = undef,
+  Optional[String[1]]    $proxy_password           = undef,
+  Optional[String[1]]    $no_proxy                 = undef,
+  Stdlib::Httpurl        $baseurl                  = 'https://cdn.redhat.com',
+  Stdlib::Fqdn           $servername               = 'subscription.rhsm.redhat.com',
+  Stdlib::Absolutepath   $serverprefix             = '/subscription',
+  Stdlib::Port           $serverport               = 443,
+  Stdlib::Absolutepath   $ca_cert_dir              = '/etc/rhsm/ca/',
+  String[1]              $repo_ca_cert_filename    = 'redhat-uep.pem',
+  Optional[String[1]]    $repo_ca_cert_source      = undef,
+  Integer[0,1]           $manage_repos             = 1,
+  Integer[0,1]           $full_refresh_on_yum      = 0,
+  String[1]              $package_ensure           = 'installed',
+  Array[String[1]]       $enabled_repo_ids         = [],
+  Integer[0,1]           $inotify                  = 1,
+  Integer[0]             $server_timeout           = 180,
+  Integer[0]             $process_timeout          = 300,
+  Stdlib::Absolutepath   $repo_filename            = '/etc/yum.repos.d/redhat.repo',
+  Hash                   $plugin_settings          = { 'main' => { 'enabled' => 1 } },
+  Integer[0,1]           $package_profile_on_trans = 0,
 ) {
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
     fail("${module_name}: Must provide rh_user and rh_password or org and activationkey")

@@ -69,6 +69,7 @@ The following parameters are available in the `rhsm` class:
 * [`inotify`](#inotify)
 * [`process_timeout`](#process_timeout)
 * [`plugin_settings`](#plugin_settings)
+* [`package_profile_on_trans`](#package_profile_on_trans)
 
 ##### <a name="rh_user"></a>`rh_user`
 
@@ -283,6 +284,14 @@ Data type: `Hash`
 Hash of {section => {key => value } } for the yum/dnf plugin.
 
 Default value: `{ 'main' => { 'enabled' => 1 } }`
+
+##### <a name="package_profile_on_trans"></a>`package_profile_on_trans`
+
+Data type: `Integer[0,1]`
+
+Run the package profile on each yum/dnf transaction
+
+Default value: `0`
 
 ## Resource types
 

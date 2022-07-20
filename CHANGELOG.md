@@ -4,7 +4,20 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
-## [v5.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v5.0.0) (2022-04-27)
+## [v5.1.0](https://github.com/voxpupuli/puppet-rhsm/tree/v5.1.0) (2022-07-25)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v5.0.0...v5.1.0)
+
+**Implemented enhancements:**
+
+- When purging unmanaged repos, this file needs to be known to puppet. [\#125](https://github.com/voxpupuli/puppet-rhsm/pull/125) ([jcpunk](https://github.com/jcpunk))
+- Add package\_profile\_on\_trans [\#123](https://github.com/voxpupuli/puppet-rhsm/pull/123) ([marcelfischer](https://github.com/marcelfischer))
+
+**Fixed bugs:**
+
+- Ensure dnf/yum plugin config has read. [\#124](https://github.com/voxpupuli/puppet-rhsm/pull/124) ([jcpunk](https://github.com/jcpunk))
+
+## [v5.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v5.0.0) (2022-04-28)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v4.1.0...v5.0.0)
 

@@ -68,6 +68,7 @@ The following parameters are available in the `rhsm` class:
 * [`server_timeout`](#server_timeout)
 * [`inotify`](#inotify)
 * [`process_timeout`](#process_timeout)
+* [`repo_filename`](#repo_filename)
 * [`plugin_settings`](#plugin_settings)
 * [`package_profile_on_trans`](#package_profile_on_trans)
 
@@ -276,6 +277,14 @@ Data type: `Integer[0]`
 The time in seconds we will allow the rhsmd cron job to run before terminating the process.
 
 Default value: `300`
+
+##### <a name="repo_filename"></a>`repo_filename`
+
+Data type: `Stdlib::Absolutepath`
+
+The name of the repo file subscription-manager uses.
+
+Default value: `'/etc/yum.repos.d/redhat.repo'`
 
 ##### <a name="plugin_settings"></a>`plugin_settings`
 

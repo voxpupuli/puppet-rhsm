@@ -143,10 +143,6 @@ class rhsm (
     file { $repo_filename:
       ensure => 'absent',
     }
-  } else {
-    file { $repo_filename:
-      ensure => 'file',
-    }
   }
 
   unless empty($plugin_settings) {

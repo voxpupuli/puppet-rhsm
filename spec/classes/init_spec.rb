@@ -128,13 +128,18 @@ describe 'rhsm', type: :class do
         end
       end
 
-      context 'with specific plugin options' do
+      context 'with specific plugin options and no repo file' do
         let :params do
           {
             rh_password: 'password',
             rh_user: 'username',
+            manage_repo_filename: false,
             plugin_settings: { 'main' => { 'enabled' => 0, 'disable_system_repos' => 1 } }
           }
+        end
+
+        it do
+          is_expected.not_to contain_file('/etc/yum.repos.d/redhat.repo')
         end
 
         if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'] < '8'

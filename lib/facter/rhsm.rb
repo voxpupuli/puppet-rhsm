@@ -7,7 +7,7 @@ Facter.add(:rhsm, type: :aggregate) do
     os['family'] == 'RedHat'
   end
 
-  # List the currently enabled repositories
+  # List the currently enabled, and available repositories
   if File.exist? '/etc/yum.repos.d/redhat.repo'
     chunk(:enabled_repo_ids) do
       repos = Array.[]
@@ -17,6 +17,15 @@ Facter.add(:rhsm, type: :aggregate) do
         repos.push(section.name) if section['enabled'].nil? || section['enabled'].to_i == 1
       end
       { enabled_repo_ids: repos }
+    end
+    chunk(:available_repo_ids) do
+      repos = Array.[]
+      repo_file = Puppet::Util::IniConfig::PhysicalFile.new('/etc/yum.repos.d/redhat.repo')
+      repo_file.read
+      repo_file.sections.each do |section|
+        repos.push(section.name)
+      end
+      { available_repo_ids: repos }
     end
   end
 

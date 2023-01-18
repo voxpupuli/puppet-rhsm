@@ -101,25 +101,41 @@ class rhsm (
   }
 
   if $rh_user {
-    $_user = " --username='${rh_user}'"
+    if $rh_user.is_a(Deferred) {
+      $_user = Deferred('inline_epp', [' --username="<%= $rh_user %>"', { 'rh_user' => $rh_user }])
+    } else {
+      $_user = " --username='${rh_user}'"
+    }
   } else {
     $_user = ''
   }
 
   if $rh_password {
-    $_password = " --password='${rh_password}'"
+    if $rh_password.is_a(Deferred) {
+      $_password = Deferred('inline_epp', [' --password="<%= $rh_password %>"', { 'rh_password' => $rh_password }])
+    } else {
+      $_password = " --password='${rh_password}'"
+    }
   } else {
     $_password = ''
   }
 
   if $org {
-    $_org = " --org='${org}'"
+    if $org.is_a(Deferred) {
+      $_org = Deferred('inline_epp', [' --org="<%= $org %>"', { 'org' => $org }])
+    } else {
+      $_org = " --org='${org}'"
+    }
   } else {
     $_org = ''
   }
 
   if $activationkey {
-    $_activationkey = " --activationkey='${activationkey}'"
+    if $activationkey.is_a(Deferred) {
+      $_activationkey = Deferred('inline_epp', [' --activationkey="<%= $activationkey %>"', { 'activationkey' => $activationkey }])
+    } else {
+      $_activationkey = " --activationkey='${activationkey}'"
+    }
   } else {
     $_activationkey = ''
   }
@@ -190,8 +206,21 @@ class rhsm (
     ensure => present,
   }
 
+  if $_user.is_a(Deferred) or $_password.is_a(Deferred) or $_org.is_a(Deferred) or $_activationkey.is_a(Deferred) {
+    $variables = {
+      'name' => $facts['networking']['fqdn'],
+      'user' => $_user,
+      'password' => $_password,
+      'org' => $_org,
+      'activationkey' => $_activationkey,
+      'proxycli' => $proxycli,
+    }
+    $_reg_command = Sensitive(Deferred('inline_epp', ['subscription-manager register --name="<%= $name %>"<%= $user %><%= $password %><%= $org %><%= $activationkey %><%= $proxycli %>', $variables]))
+  } else {
+    $_reg_command = Sensitive("subscription-manager register --name='${facts['networking']['fqdn']}'${_user}${_password}${_org}${_activationkey}${proxycli}")
+  }
   exec { 'RHSM-register':
-    command => Sensitive("subscription-manager register --name='${facts['networking']['fqdn']}'${_user}${_password}${_org}${_activationkey}${proxycli}"),
+    command => $_reg_command,
     creates => '/etc/pki/consumer/cert.pem',
     path    => '/bin:/usr/bin:/usr/sbin',
     require => File['/etc/rhsm/rhsm.conf'],

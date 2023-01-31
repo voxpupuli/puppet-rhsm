@@ -92,6 +92,24 @@ describe 'rhsm', type: :class do
         it { is_expected.to contain_rh_repo('rhel-7-server-optional-rpms') }
       end
 
+      context 'with list of subscriptions to enable' do
+        let(:params) do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            enabled_subscription_ids: %w[
+              001234567890
+              00123456789a
+            ]
+          }
+        end
+
+        it { is_expected.to have_rh_subscription_resource_count(2) }
+
+        it { is_expected.to contain_rh_subscription('001234567890') }
+        it { is_expected.to contain_rh_subscription('00123456789a') }
+      end
+
       context 'with proxy scheme set to https' do
         let(:params) do
           {

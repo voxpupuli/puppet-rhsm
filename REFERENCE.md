@@ -64,6 +64,7 @@ The following parameters are available in the `rhsm` class:
 * [`no_proxy`](#-rhsm--no_proxy)
 * [`baseurl`](#-rhsm--baseurl)
 * [`package_ensure`](#-rhsm--package_ensure)
+* [`enabled_subscription_ids`](#-rhsm--enabled_subscription_ids)
 * [`enabled_repo_ids`](#-rhsm--enabled_repo_ids)
 * [`server_timeout`](#-rhsm--server_timeout)
 * [`inotify`](#-rhsm--inotify)
@@ -245,6 +246,14 @@ Data type: `String[1]`
 Whether to install subscription-manager, directly passed to the `ensure` param of the package.
 
 Default value: `'installed'`
+
+##### <a name="-rhsm--enabled_subscription_ids"></a>`enabled_subscription_ids`
+
+Data type: `Array[String[1]]`
+
+A listing of subscription IDs to provide to the subscription-manager attach --pool command.
+
+Default value: `[]`
 
 ##### <a name="-rhsm--enabled_repo_ids"></a>`enabled_repo_ids`
 

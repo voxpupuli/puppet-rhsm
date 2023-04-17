@@ -44,68 +44,69 @@ rhsm::rh_password: mypassword
 
 The following parameters are available in the `rhsm` class:
 
-* [`rh_user`](#rh_user)
-* [`rh_password`](#rh_password)
-* [`org`](#org)
-* [`activationkey`](#activationkey)
-* [`servername`](#servername)
-* [`serverprefix`](#serverprefix)
-* [`serverport`](#serverport)
-* [`ca_cert_dir`](#ca_cert_dir)
-* [`repo_ca_cert_filename`](#repo_ca_cert_filename)
-* [`repo_ca_cert_source`](#repo_ca_cert_source)
-* [`manage_repos`](#manage_repos)
-* [`full_refresh_on_yum`](#full_refresh_on_yum)
-* [`proxy_hostname`](#proxy_hostname)
-* [`proxy_scheme`](#proxy_scheme)
-* [`proxy_port`](#proxy_port)
-* [`proxy_user`](#proxy_user)
-* [`proxy_password`](#proxy_password)
-* [`no_proxy`](#no_proxy)
-* [`baseurl`](#baseurl)
-* [`package_ensure`](#package_ensure)
-* [`enabled_repo_ids`](#enabled_repo_ids)
-* [`server_timeout`](#server_timeout)
-* [`inotify`](#inotify)
-* [`process_timeout`](#process_timeout)
-* [`repo_filename`](#repo_filename)
-* [`plugin_settings`](#plugin_settings)
-* [`package_profile_on_trans`](#package_profile_on_trans)
+* [`rh_user`](#-rhsm--rh_user)
+* [`rh_password`](#-rhsm--rh_password)
+* [`org`](#-rhsm--org)
+* [`activationkey`](#-rhsm--activationkey)
+* [`servername`](#-rhsm--servername)
+* [`serverprefix`](#-rhsm--serverprefix)
+* [`serverport`](#-rhsm--serverport)
+* [`ca_cert_dir`](#-rhsm--ca_cert_dir)
+* [`repo_ca_cert_filename`](#-rhsm--repo_ca_cert_filename)
+* [`repo_ca_cert_source`](#-rhsm--repo_ca_cert_source)
+* [`manage_repos`](#-rhsm--manage_repos)
+* [`full_refresh_on_yum`](#-rhsm--full_refresh_on_yum)
+* [`proxy_hostname`](#-rhsm--proxy_hostname)
+* [`proxy_scheme`](#-rhsm--proxy_scheme)
+* [`proxy_port`](#-rhsm--proxy_port)
+* [`proxy_user`](#-rhsm--proxy_user)
+* [`proxy_password`](#-rhsm--proxy_password)
+* [`no_proxy`](#-rhsm--no_proxy)
+* [`baseurl`](#-rhsm--baseurl)
+* [`package_ensure`](#-rhsm--package_ensure)
+* [`enabled_repo_ids`](#-rhsm--enabled_repo_ids)
+* [`server_timeout`](#-rhsm--server_timeout)
+* [`inotify`](#-rhsm--inotify)
+* [`process_timeout`](#-rhsm--process_timeout)
+* [`manage_repo_filename`](#-rhsm--manage_repo_filename)
+* [`repo_filename`](#-rhsm--repo_filename)
+* [`plugin_settings`](#-rhsm--plugin_settings)
+* [`package_profile_on_trans`](#-rhsm--package_profile_on_trans)
 
-##### <a name="rh_user"></a>`rh_user`
+##### <a name="-rhsm--rh_user"></a>`rh_user`
 
 Data type: `Optional[String[1]]`
 
 User for the Customer Portal.
 You need to specify either (rh_user and rh_password) or (org and activationkey)
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="rh_password"></a>`rh_password`
+##### <a name="-rhsm--rh_password"></a>`rh_password`
 
 Data type: `Optional[String[1]]`
 
 Password for the rh_user account
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="org"></a>`org`
+##### <a name="-rhsm--org"></a>`org`
 
 Data type: `Optional[String[1]]`
 
 Organization to use
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="activationkey"></a>`activationkey`
+##### <a name="-rhsm--activationkey"></a>`activationkey`
 
 Data type: `Optional[String[1]]`
 
 Activationkey to use
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="servername"></a>`servername`
+##### <a name="-rhsm--servername"></a>`servername`
 
 Data type: `Stdlib::Fqdn`
 
@@ -114,7 +115,7 @@ Used directly in rhsm.conf template
 
 Default value: `'subscription.rhsm.redhat.com'`
 
-##### <a name="serverprefix"></a>`serverprefix`
+##### <a name="-rhsm--serverprefix"></a>`serverprefix`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -125,7 +126,7 @@ Used directly in rhsm.conf template
 
 Default value: `'/subscription'`
 
-##### <a name="serverport"></a>`serverport`
+##### <a name="-rhsm--serverport"></a>`serverport`
 
 Data type: `Stdlib::Port`
 
@@ -134,7 +135,7 @@ Used directly in rhsm.conf template
 
 Default value: `443`
 
-##### <a name="ca_cert_dir"></a>`ca_cert_dir`
+##### <a name="-rhsm--ca_cert_dir"></a>`ca_cert_dir`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -142,7 +143,7 @@ Server CA certificate location
 
 Default value: `'/etc/rhsm/ca/'`
 
-##### <a name="repo_ca_cert_filename"></a>`repo_ca_cert_filename`
+##### <a name="-rhsm--repo_ca_cert_filename"></a>`repo_ca_cert_filename`
 
 Data type: `String[1]`
 
@@ -152,16 +153,16 @@ redhat-uep.pem for RHSM
 
 Default value: `'redhat-uep.pem'`
 
-##### <a name="repo_ca_cert_source"></a>`repo_ca_cert_source`
+##### <a name="-rhsm--repo_ca_cert_source"></a>`repo_ca_cert_source`
 
 Data type: `Optional[String[1]]`
 
 URI, if set the content is used for CA file resource ${ca_cert_dir}/${repo_ca_cert_filename}
 Possible values are puppet:, file: and http:
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="manage_repos"></a>`manage_repos`
+##### <a name="-rhsm--manage_repos"></a>`manage_repos`
 
 Data type: `Integer[0,1]`
 
@@ -170,7 +171,7 @@ Data type: `Integer[0,1]`
 
 Default value: `1`
 
-##### <a name="full_refresh_on_yum"></a>`full_refresh_on_yum`
+##### <a name="-rhsm--full_refresh_on_yum"></a>`full_refresh_on_yum`
 
 Data type: `Integer[0,1]`
 
@@ -181,15 +182,15 @@ Used directly in rhsm.conf template
 
 Default value: `0`
 
-##### <a name="proxy_hostname"></a>`proxy_hostname`
+##### <a name="-rhsm--proxy_hostname"></a>`proxy_hostname`
 
 Data type: `Optional[Stdlib::Fqdn]`
 
 Proxy hostname
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="proxy_scheme"></a>`proxy_scheme`
+##### <a name="-rhsm--proxy_scheme"></a>`proxy_scheme`
 
 Data type: `Enum['http', 'https']`
 
@@ -197,39 +198,39 @@ Proxy scheme
 
 Default value: `'http'`
 
-##### <a name="proxy_port"></a>`proxy_port`
+##### <a name="-rhsm--proxy_port"></a>`proxy_port`
 
 Data type: `Optional[Stdlib::Port]`
 
 Proxy port
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="proxy_user"></a>`proxy_user`
+##### <a name="-rhsm--proxy_user"></a>`proxy_user`
 
 Data type: `Optional[String[1]]`
 
 Proxy user
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="proxy_password"></a>`proxy_password`
+##### <a name="-rhsm--proxy_password"></a>`proxy_password`
 
 Data type: `Optional[String[1]]`
 
 Proxy password
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="no_proxy"></a>`no_proxy`
+##### <a name="-rhsm--no_proxy"></a>`no_proxy`
 
 Data type: `Optional[String[1]]`
 
 no_proxy definition
 
-Default value: ``undef``
+Default value: `undef`
 
-##### <a name="baseurl"></a>`baseurl`
+##### <a name="-rhsm--baseurl"></a>`baseurl`
 
 Data type: `Stdlib::Httpurl`
 
@@ -237,7 +238,7 @@ Base URL for rhsm, default provided
 
 Default value: `'https://cdn.redhat.com'`
 
-##### <a name="package_ensure"></a>`package_ensure`
+##### <a name="-rhsm--package_ensure"></a>`package_ensure`
 
 Data type: `String[1]`
 
@@ -245,7 +246,7 @@ Whether to install subscription-manager, directly passed to the `ensure` param o
 
 Default value: `'installed'`
 
-##### <a name="enabled_repo_ids"></a>`enabled_repo_ids`
+##### <a name="-rhsm--enabled_repo_ids"></a>`enabled_repo_ids`
 
 Data type: `Array[String[1]]`
 
@@ -253,7 +254,7 @@ A listing of the Repo IDs to provide to the subscription-manager repo --enable c
 
 Default value: `[]`
 
-##### <a name="server_timeout"></a>`server_timeout`
+##### <a name="-rhsm--server_timeout"></a>`server_timeout`
 
 Data type: `Integer[0]`
 
@@ -261,7 +262,7 @@ HTTP timeout in seconds
 
 Default value: `180`
 
-##### <a name="inotify"></a>`inotify`
+##### <a name="-rhsm--inotify"></a>`inotify`
 
 Data type: `Integer[0,1]`
 
@@ -270,7 +271,7 @@ file system without inotify notification support (e.g. NFS), then disabling inot
 
 Default value: `1`
 
-##### <a name="process_timeout"></a>`process_timeout`
+##### <a name="-rhsm--process_timeout"></a>`process_timeout`
 
 Data type: `Integer[0]`
 
@@ -278,7 +279,15 @@ The time in seconds we will allow the rhsmd cron job to run before terminating t
 
 Default value: `300`
 
-##### <a name="repo_filename"></a>`repo_filename`
+##### <a name="-rhsm--manage_repo_filename"></a>`manage_repo_filename`
+
+Data type: `Boolean`
+
+Should puppet try to manage the repo file subscription-manager uses?
+
+Default value: `true`
+
+##### <a name="-rhsm--repo_filename"></a>`repo_filename`
 
 Data type: `Stdlib::Absolutepath`
 
@@ -286,7 +295,7 @@ The name of the repo file subscription-manager uses.
 
 Default value: `'/etc/yum.repos.d/redhat.repo'`
 
-##### <a name="plugin_settings"></a>`plugin_settings`
+##### <a name="-rhsm--plugin_settings"></a>`plugin_settings`
 
 Data type: `Hash`
 
@@ -294,7 +303,7 @@ Hash of {section => {key => value } } for the yum/dnf plugin.
 
 Default value: `{ 'main' => { 'enabled' => 1 } }`
 
-##### <a name="package_profile_on_trans"></a>`package_profile_on_trans`
+##### <a name="-rhsm--package_profile_on_trans"></a>`package_profile_on_trans`
 
 Data type: `Integer[0,1]`
 
@@ -324,15 +333,15 @@ The basic property that the resource should be in.
 
 The following parameters are available in the `rh_repo` type.
 
-* [`name`](#name)
-* [`provider`](#provider)
+* [`name`](#-rh_repo--name)
+* [`provider`](#-rh_repo--provider)
 
-##### <a name="name"></a>`name`
+##### <a name="-rh_repo--name"></a>`name`
 
 namevar
 
 
-##### <a name="provider"></a>`provider`
+##### <a name="-rh_repo--provider"></a>`provider`
 
 The specific backend to use for this `rh_repo` resource. You will seldom need to specify this --- Puppet will usually
 discover the appropriate provider for your platform.
@@ -357,20 +366,20 @@ Default value: `present`
 
 The following parameters are available in the `rh_subscription` type.
 
-* [`name`](#name)
-* [`provider`](#provider)
-* [`serial`](#serial)
+* [`name`](#-rh_subscription--name)
+* [`provider`](#-rh_subscription--provider)
+* [`serial`](#-rh_subscription--serial)
 
-##### <a name="name"></a>`name`
+##### <a name="-rh_subscription--name"></a>`name`
 
 namevar
 
 
-##### <a name="provider"></a>`provider`
+##### <a name="-rh_subscription--provider"></a>`provider`
 
 The specific backend to use for this `rh_subscription` resource. You will seldom need to specify this --- Puppet will
 usually discover the appropriate provider for your platform.
 
-##### <a name="serial"></a>`serial`
+##### <a name="-rh_subscription--serial"></a>`serial`
 
 

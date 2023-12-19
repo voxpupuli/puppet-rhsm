@@ -100,38 +100,54 @@ class rhsm (
     fail("${module_name}: Must provide rh_user and rh_password or org and activationkey")
   }
 
-  if $rh_user {
-    $_user = " --username='${rh_user}'"
-  } else {
-    $_user = ''
-  }
-
-  if $rh_password {
-    $_password = " --password='${rh_password}'"
-  } else {
-    $_password = ''
-  }
-
-  if $org {
-    $_org = " --org='${org}'"
-  } else {
-    $_org = ''
-  }
-
-  if $activationkey {
-    $_activationkey = " --activationkey='${activationkey}'"
-  } else {
-    $_activationkey = ''
-  }
-
-  if $proxy_hostname {
-    if $proxy_user and $proxy_password {
-      $proxycli = " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+  $_user = if $rh_user {
+    if $rh_user.is_a(Deferred) {
+      Deferred('inline_epp', [' --username="<%= $rh_user %>"', { 'rh_user' => $rh_user }])
     } else {
-      $proxycli = " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port}"
+      " --username='${rh_user}'"
     }
   } else {
-    $proxycli = ''
+    ''
+  }
+
+  $_password = if $rh_password {
+    if $rh_password.is_a(Deferred) {
+      Deferred('inline_epp', [' --password="<%= $rh_password %>"', { 'rh_password' => $rh_password }])
+    } else {
+      " --password='${rh_password}'"
+    }
+  } else {
+    ''
+  }
+
+  $_org = if $org {
+    if $org.is_a(Deferred) {
+      Deferred('inline_epp', [' --org="<%= $org %>"', { 'org' => $org }])
+    } else {
+      " --org='${org}'"
+    }
+  } else {
+    ''
+  }
+
+  $_activationkey = if $activationkey {
+    if $activationkey.is_a(Deferred) {
+      Deferred('inline_epp', [' --activationkey="<%= $activationkey %>"', { 'activationkey' => $activationkey }])
+    } else {
+      " --activationkey='${activationkey}'"
+    }
+  } else {
+    ''
+  }
+
+  $proxycli = if $proxy_hostname {
+    if $proxy_user and $proxy_password {
+      " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+    } else {
+      " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port}"
+    }
+  } else {
+    ''
   }
 
   package { 'subscription-manager':
@@ -190,8 +206,21 @@ class rhsm (
     ensure => present,
   }
 
+  if $_user.is_a(Deferred) or $_password.is_a(Deferred) or $_org.is_a(Deferred) or $_activationkey.is_a(Deferred) {
+    $variables = {
+      'name' => $facts['networking']['fqdn'],
+      'user' => $_user,
+      'password' => $_password,
+      'org' => $_org,
+      'activationkey' => $_activationkey,
+      'proxycli' => $proxycli,
+    }
+    $_reg_command = Sensitive(Deferred('inline_epp', ['subscription-manager register --name="<%= $name %>"<%= $user %><%= $password %><%= $org %><%= $activationkey %><%= $proxycli %>', $variables]))
+  } else {
+    $_reg_command = Sensitive("subscription-manager register --name='${facts['networking']['fqdn']}'${_user}${_password}${_org}${_activationkey}${proxycli}")
+  }
   exec { 'RHSM-register':
-    command => Sensitive("subscription-manager register --name='${facts['networking']['fqdn']}'${_user}${_password}${_org}${_activationkey}${proxycli}"),
+    command => $_reg_command,
     creates => '/etc/pki/consumer/cert.pem',
     path    => '/bin:/usr/bin:/usr/sbin',
     require => File['/etc/rhsm/rhsm.conf'],

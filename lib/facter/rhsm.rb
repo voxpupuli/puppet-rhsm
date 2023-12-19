@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'puppet/util/inifile'
+require 'puppet/util/json'
 
 Facter.add(:rhsm, type: :aggregate) do
   confine :os do |os|
@@ -38,6 +39,12 @@ Facter.add(:rhsm, type: :aggregate) do
     else
       { subscription_type: 'unknown' }
     end
+  end
+
+  # Find any syspurpose defined
+  chunk(:syspurpose) do
+    syspurpose = Puppet::Util::Json.load_file_if_valid('/etc/rhsm/syspurpose/syspurpose.json') if File.exist? '/etc/rhsm/syspurpose/syspurpose.json'
+    syspurpose unless syspurpose.empty?
   end
 
   # Add satellite server information

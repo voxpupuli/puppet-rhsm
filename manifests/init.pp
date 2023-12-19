@@ -39,6 +39,7 @@
 # @param no_proxy no_proxy definition
 # @param baseurl Base URL for rhsm, default provided
 # @param package_ensure Whether to install subscription-manager, directly passed to the `ensure` param of the package.
+# @param enabled_subscription_ids A listing of subscription IDs to provide to the subscription-manager attach --pool command.
 # @param enabled_repo_ids A listing of the Repo IDs to provide to the subscription-manager repo --enable command.
 # @param server_timeout HTTP timeout in seconds
 # @param inotify Inotify is used for monitoring changes in directories with certificates. When this directory is mounted using a network
@@ -85,6 +86,7 @@ class rhsm (
   Integer[0,1]           $manage_repos             = 1,
   Integer[0,1]           $full_refresh_on_yum      = 0,
   String[1]              $package_ensure           = 'installed',
+  Array[String[1]]       $enabled_subscription_ids = [],
   Array[String[1]]       $enabled_repo_ids         = [],
   Integer[0,1]           $inotify                  = 1,
   Integer[0]             $server_timeout           = 180,
@@ -178,6 +180,10 @@ class rhsm (
       require => Package['subscription-manager'],
       before  => File['/etc/rhsm/rhsm.conf'],
     }
+  }
+
+  rh_subscription { $enabled_subscription_ids:
+    ensure => present,
   }
 
   rh_repo { $enabled_repo_ids:

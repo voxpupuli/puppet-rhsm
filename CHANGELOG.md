@@ -4,6 +4,17 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.2.0](https://github.com/voxpupuli/puppet-rhsm/tree/v5.2.0) (2023-12-19)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v5.1.0...v5.2.0)
+
+**Implemented enhancements:**
+
+- Add Puppet 8 support [\#139](https://github.com/voxpupuli/puppet-rhsm/pull/139) ([bastelfreak](https://github.com/bastelfreak))
+- Allow subscriptions to be attached via hiera [\#136](https://github.com/voxpupuli/puppet-rhsm/pull/136) ([tedgarb](https://github.com/tedgarb))
+- add fact for rhsm.available\_repo\_ids [\#133](https://github.com/voxpupuli/puppet-rhsm/pull/133) ([sigbjornaib](https://github.com/sigbjornaib))
+- Add a switch to prevent caring about redhat.repo if needed [\#128](https://github.com/voxpupuli/puppet-rhsm/pull/128) ([jcpunk](https://github.com/jcpunk))
+
 ## [v5.1.0](https://github.com/voxpupuli/puppet-rhsm/tree/v5.1.0) (2022-07-25)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v5.0.0...v5.1.0)

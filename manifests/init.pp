@@ -100,54 +100,54 @@ class rhsm (
     fail("${module_name}: Must provide rh_user and rh_password or org and activationkey")
   }
 
-  if $rh_user {
+  $_user = if $rh_user {
     if $rh_user.is_a(Deferred) {
-      $_user = Deferred('inline_epp', [' --username="<%= $rh_user %>"', { 'rh_user' => $rh_user }])
+      Deferred('inline_epp', [' --username="<%= $rh_user %>"', { 'rh_user' => $rh_user }])
     } else {
-      $_user = " --username='${rh_user}'"
+      " --username='${rh_user}'"
     }
   } else {
-    $_user = ''
+    ''
   }
 
-  if $rh_password {
+  $_password = if $rh_password {
     if $rh_password.is_a(Deferred) {
-      $_password = Deferred('inline_epp', [' --password="<%= $rh_password %>"', { 'rh_password' => $rh_password }])
+      Deferred('inline_epp', [' --password="<%= $rh_password %>"', { 'rh_password' => $rh_password }])
     } else {
-      $_password = " --password='${rh_password}'"
+      " --password='${rh_password}'"
     }
   } else {
-    $_password = ''
+    ''
   }
 
-  if $org {
+  $_org = if $org {
     if $org.is_a(Deferred) {
-      $_org = Deferred('inline_epp', [' --org="<%= $org %>"', { 'org' => $org }])
+      Deferred('inline_epp', [' --org="<%= $org %>"', { 'org' => $org }])
     } else {
-      $_org = " --org='${org}'"
+      " --org='${org}'"
     }
   } else {
-    $_org = ''
+    ''
   }
 
-  if $activationkey {
+  $_activationkey = if $activationkey {
     if $activationkey.is_a(Deferred) {
-      $_activationkey = Deferred('inline_epp', [' --activationkey="<%= $activationkey %>"', { 'activationkey' => $activationkey }])
+      Deferred('inline_epp', [' --activationkey="<%= $activationkey %>"', { 'activationkey' => $activationkey }])
     } else {
-      $_activationkey = " --activationkey='${activationkey}'"
+      " --activationkey='${activationkey}'"
     }
   } else {
-    $_activationkey = ''
+    ''
   }
 
-  if $proxy_hostname {
+  $proxycli = if $proxy_hostname {
     if $proxy_user and $proxy_password {
-      $proxycli = " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
+      " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port} --proxyuser=${proxy_user} --proxypass=${proxy_password}"
     } else {
-      $proxycli = " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port}"
+      " --proxy=${proxy_scheme}://${proxy_hostname}:${proxy_port}"
     }
   } else {
-    $proxycli = ''
+    ''
   }
 
   package { 'subscription-manager':

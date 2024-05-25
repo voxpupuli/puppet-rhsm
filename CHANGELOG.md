@@ -4,6 +4,14 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v5.3.0](https://github.com/voxpupuli/puppet-rhsm/tree/v5.3.0) (2024-05-25)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v5.2.0...v5.3.0)
+
+**Implemented enhancements:**
+
+- Allow the user/pw or org/key to be Deferred. [\#135](https://github.com/voxpupuli/puppet-rhsm/pull/135) ([tedgarb](https://github.com/tedgarb))
+
 ## [v5.2.0](https://github.com/voxpupuli/puppet-rhsm/tree/v5.2.0) (2023-12-19)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v5.1.0...v5.2.0)

@@ -34,7 +34,7 @@ describe 'rhsm', type: :class do
 
         it do
           is_expected.to contain_exec('RHSM-register').with(
-            command: sensitive("subscription-manager register --name='#{facts[:fqdn]}' --username='username' --password='password'")
+            command: sensitive("/sbin/subscription-manager register --name='#{facts[:fqdn]}' --username='username' --password='password'")
           )
         end
 
@@ -69,7 +69,7 @@ describe 'rhsm', type: :class do
 
         it do
           is_expected.to contain_exec('RHSM-register').with(
-            command: sensitive("subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key'")
+            command: sensitive("/sbin/subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key'")
           )
         end
       end
@@ -123,7 +123,7 @@ describe 'rhsm', type: :class do
 
         it do
           is_expected.to contain_exec('RHSM-register').with(
-            command: sensitive("subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key' --proxy=https://proxy.example.com:443")
+            command: sensitive("/sbin/subscription-manager register --name='#{facts[:fqdn]}' --org='org' --activationkey='key' --proxy=https://proxy.example.com:443")
           )
         end
 

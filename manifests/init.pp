@@ -215,9 +215,9 @@ class rhsm (
       'activationkey' => $_activationkey,
       'proxycli' => $proxycli,
     }
-    $_reg_command = Sensitive(Deferred('inline_epp', ['subscription-manager register --name="<%= $name %>"<%= $user %><%= $password %><%= $org %><%= $activationkey %><%= $proxycli %>', $variables]))
+    $_reg_command = Sensitive(Deferred('inline_epp', ['/sbin/subscription-manager register --name="<%= $name %>"<%= $user %><%= $password %><%= $org %><%= $activationkey %><%= $proxycli %>', $variables]))
   } else {
-    $_reg_command = Sensitive("subscription-manager register --name='${facts['networking']['fqdn']}'${_user}${_password}${_org}${_activationkey}${proxycli}")
+    $_reg_command = Sensitive("/sbin/subscription-manager register --name='${facts['networking']['fqdn']}'${_user}${_password}${_org}${_activationkey}${proxycli}")
   }
   exec { 'RHSM-register':
     command => $_reg_command,

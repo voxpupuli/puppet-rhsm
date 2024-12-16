@@ -222,7 +222,7 @@ class rhsm (
   exec { 'RHSM-register':
     command => $_reg_command,
     creates => '/etc/pki/consumer/cert.pem',
-    path    => '/bin:/usr/bin:/usr/sbin',
+    path    => '/sbin:/usr/sbin:/bin:/usr/bin',
     require => File['/etc/rhsm/rhsm.conf'],
   }
   -> Rh_subscription <||>

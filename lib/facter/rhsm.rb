@@ -42,9 +42,11 @@ Facter.add(:rhsm, type: :aggregate) do
   end
 
   # Find any syspurpose defined
-  chunk(:syspurpose) do
-    syspurpose = Puppet::Util::Json.load_file_if_valid('/etc/rhsm/syspurpose/syspurpose.json') if File.exist? '/etc/rhsm/syspurpose/syspurpose.json'
-    syspurpose unless syspurpose.empty?
+  if File.exist? '/etc/rhsm/syspurpose/syspurpose.json'
+    chunk(:syspurpose) do
+      syspurpose = Puppet::Util::Json.load_file_if_valid('/etc/rhsm/syspurpose/syspurpose.json')
+      syspurpose unless syspurpose.empty?
+    end
   end
 
   # Add satellite server information
@@ -53,10 +55,12 @@ Facter.add(:rhsm, type: :aggregate) do
       server_file = Puppet::Util::IniConfig::PhysicalFile.new('/etc/rhsm/rhsm.conf')
       server_file.read
 
-      { server: 'unknown' } unless server_file.get_section('server')
-
-      server_conf = server_file.get_section('server').entries.select { |entry| entry.is_a?(Array) }.to_h
-      { server: server_conf }
+      if server_file.get_section('server')
+        server_conf = server_file.get_section('server').entries.select { |entry| entry.is_a?(Array) }.to_h
+        { server: server_conf }
+      else
+        { server: 'unknown' }
+      end
     end
   end
 end

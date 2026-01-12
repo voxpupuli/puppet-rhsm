@@ -38,24 +38,13 @@ describe 'rhsm', type: :class do
           )
         end
 
-        if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'] < '8'
-          it do
-            is_expected.to contain_file('/etc/yum/pluginconf.d/subscription-manager.conf').
-              with_owner('root').
-              with_group('root').
-              with_mode('0644').
-              with_content(%r{^\[main\]$}).
-              with_content(%r{^enabled=1$})
-          end
-        else
-          it do
-            is_expected.to contain_file('/etc/dnf/plugins/subscription-manager.conf').
-              with_owner('root').
-              with_group('root').
-              with_mode('0644').
-              with_content(%r{^\[main\]$}).
-              with_content(%r{^enabled=1$})
-          end
+        it do
+          is_expected.to contain_file('/etc/dnf/plugins/subscription-manager.conf').
+            with_owner('root').
+            with_group('root').
+            with_mode('0644').
+            with_content(%r{^\[main\]$}).
+            with_content(%r{^enabled=1$})
         end
       end
 
@@ -160,27 +149,14 @@ describe 'rhsm', type: :class do
           is_expected.not_to contain_file('/etc/yum.repos.d/redhat.repo')
         end
 
-        if facts[:os]['family'] == 'RedHat' && facts[:os]['release']['major'] < '8'
-          # disable_system_repos doesn't actually do anything on EL6 or 7
-          it do
-            is_expected.to contain_file('/etc/yum/pluginconf.d/subscription-manager.conf').
-              with_owner('root').
-              with_group('root').
-              with_mode('0644').
-              with_content(%r{^\[main\]$}).
-              with_content(%r{^enabled=0$}).
-              with_content(%r{^disable_system_repos=1$})
-          end
-        else
-          it do
-            is_expected.to contain_file('/etc/dnf/plugins/subscription-manager.conf').
-              with_owner('root').
-              with_group('root').
-              with_mode('0644').
-              with_content(%r{^\[main\]$}).
-              with_content(%r{^enabled=0$}).
-              with_content(%r{^disable_system_repos=1$})
-          end
+        it do
+          is_expected.to contain_file('/etc/dnf/plugins/subscription-manager.conf').
+            with_owner('root').
+            with_group('root').
+            with_mode('0644').
+            with_content(%r{^\[main\]$}).
+            with_content(%r{^enabled=0$}).
+            with_content(%r{^disable_system_repos=1$})
         end
       end
     end

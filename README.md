@@ -49,7 +49,7 @@ class { 'rhsm':
 Use `rh_repo` type to add a repository:
 
 ```puppet
-rh_repo { 'rhel-7-server-extras-rpms':
+rh_repo { 'codeready-builder-for-rhel-8-x86_64-rpms':
   ensure => present,
 }
 ```
@@ -101,9 +101,9 @@ class { 'rhsm':
   rh_user          => 'myuser',
   rh_password      => 'mypassword',
   enabled_repo_ids => [
-    'rhel-7-server-rpms',
-    'rhel-7-server-optional-rpms'
-  ]
+    'rhel-8-for-x86_64-baseos-rpms',
+    'rhel-8-for-x86_64-appstream-rpms',
+  ],
 }
 ```
 
@@ -113,8 +113,8 @@ Alternatively, hiera can be utilized to specify these arguments.
 rhsm::rh_user: myuser
 rhsm::rh_password: mypassword
 rhsm::enabled_repo_ids:
-  - 'rhel-7-server-rpms',
-  - 'rhel-7-server-optional-rpms'
+  - 'rhel-8-for-x86_64-baseos-rpms'
+  - 'rhel-8-for-x86_64-appstream-rpms'
 ```
 
 ### Satellite 6
@@ -122,7 +122,7 @@ Registering with Red Hat Satellite 6 needs some additional settings.
 
 ```puppet
 class { 'rhsm':
-  activationkey         => 'act-lce-rhel-7,act-product',
+  activationkey         => 'act-lce-rhel-8,act-product',
   org                   => 'satellite_organization',
   servername            => 'satellite.example.com',
   serverprefix          => '/rhsm',

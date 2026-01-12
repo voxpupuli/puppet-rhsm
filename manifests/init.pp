@@ -173,11 +173,7 @@ class rhsm (
   }
 
   unless empty($plugin_settings) {
-    if $facts['os']['release']['major'] < '8' {
-      $plugin_path = '/etc/yum/pluginconf.d/subscription-manager.conf'
-    } else {
-      $plugin_path = '/etc/dnf/plugins/subscription-manager.conf'
-    }
+    $plugin_path = '/etc/dnf/plugins/subscription-manager.conf'
 
     file { $plugin_path:
       ensure  => 'file',

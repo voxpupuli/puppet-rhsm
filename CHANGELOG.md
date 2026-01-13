@@ -4,6 +4,25 @@ All notable changes to this project will be documented in this file.
 Each new release typically also includes the latest modulesync defaults.
 These should not affect the functionality of the module.
 
+## [v6.0.0](https://github.com/voxpupuli/puppet-rhsm/tree/v6.0.0) (2026-01-12)
+
+[Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v5.3.0...v6.0.0)
+
+**Breaking changes:**
+
+- Drop support for RHEL6 and RHEL7 [\#166](https://github.com/voxpupuli/puppet-rhsm/pull/166) ([treydock](https://github.com/treydock))
+- Drop puppet, update openvox minimum version to 8.19 [\#156](https://github.com/voxpupuli/puppet-rhsm/pull/156) ([TheMeier](https://github.com/TheMeier))
+
+**Implemented enhancements:**
+
+- metadata.json: Add OpenVox [\#154](https://github.com/voxpupuli/puppet-rhsm/pull/154) ([jstraw](https://github.com/jstraw))
+- Add syspurpose entries to facts [\#129](https://github.com/voxpupuli/puppet-rhsm/pull/129) ([jcpunk](https://github.com/jcpunk))
+
+**Fixed bugs:**
+
+- Avoid errors with rhsm facts when not subscribed [\#164](https://github.com/voxpupuli/puppet-rhsm/pull/164) ([treydock](https://github.com/treydock))
+- updating path to prefer /sbin [\#152](https://github.com/voxpupuli/puppet-rhsm/pull/152) ([anthonysomerset](https://github.com/anthonysomerset))
+
 ## [v5.3.0](https://github.com/voxpupuli/puppet-rhsm/tree/v5.3.0) (2024-05-25)
 
 [Full Changelog](https://github.com/voxpupuli/puppet-rhsm/compare/v5.2.0...v5.3.0)

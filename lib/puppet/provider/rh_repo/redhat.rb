@@ -15,7 +15,7 @@ Puppet::Type.type(:rh_repo).provide(:redhat) do
     repo_file.read
     repo_file.sections.each do |section|
       repos[section.name] = {
-        enabled: section['enabled'].nil? || section['enabled'].to_i == 1
+        enabled: section['enabled'].nil? || section['enabled'].to_i == 1,
       }
     end
     repos
@@ -25,7 +25,7 @@ Puppet::Type.type(:rh_repo).provide(:redhat) do
     repos.map do |rid, data|
       new(
         ensure: data[:enabled] ? :enabled : :disabled,
-        name: rid
+        name: rid,
       )
     end
   end

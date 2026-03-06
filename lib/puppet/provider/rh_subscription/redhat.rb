@@ -109,7 +109,7 @@ Puppet::Type.type(:rh_subscription).provide(:redhat) do
       end
       subs[sub_data['Certificate']['Pool ID']] = {
         name: sub_data['Order']['Name'],
-        serial: sub_data['Certificate']['Serial']
+        serial: sub_data['Certificate']['Serial'],
       }
     end
     subs
@@ -120,7 +120,7 @@ Puppet::Type.type(:rh_subscription).provide(:redhat) do
       new(
         ensure: :present,
         name: pool,
-        serial: data[:serial]
+        serial: data[:serial],
       )
     end
   end

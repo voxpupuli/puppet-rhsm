@@ -29,7 +29,7 @@ describe 'rhsm', type: :class do
         it do
           is_expected.to contain_service('rhsmcertd').with(
             ensure: 'running', enable: 'true',
-          )
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
         end
 
         it do
@@ -157,6 +157,228 @@ describe 'rhsm', type: :class do
             .with_content(%r{^\[main\]$})
             .with_content(%r{^enabled=0$})
             .with_content(%r{^disable_system_repos=1$})
+        end
+      end
+
+      # rhsmcertd service management tests
+      context 'with manage_rhsmcertd_service disabled' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            manage_rhsmcertd_service: false,
+          }
+        end
+
+        it { is_expected.not_to contain_service('rhsmcertd') }
+      end
+
+      context 'with rhsmcertd_service_ensure set to stopped' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            rhsmcertd_service_ensure: 'stopped',
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsmcertd').with(
+            ensure: 'stopped', enable: true,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+      end
+
+      context 'with rhsmcertd_service_enable set to false' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            rhsmcertd_service_enable: false,
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsmcertd').with(
+            ensure: 'running', enable: false,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+      end
+
+      context 'with rhsmcertd_service_ensure and enable set to false' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            rhsmcertd_service_ensure: 'stopped',
+            rhsmcertd_service_enable: false,
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsmcertd').with(
+            ensure: 'stopped', enable: false,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+      end
+
+      # rhsm service management tests
+      context 'with manage_rhsm_service disabled' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            manage_rhsm_service: false,
+          }
+        end
+
+        it { is_expected.not_to contain_service('rhsm') }
+      end
+
+      context 'with manage_rhsm_service enabled (defaults)' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            manage_rhsm_service: true,
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsm').with(
+            ensure: 'stopped', enable: false,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+      end
+
+      context 'with rhsm_service_ensure => running' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            rhsm_service_ensure: 'running',
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsm').with(
+            ensure: 'running', enable: false,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+      end
+
+      context 'with rhsm_service_ensure => stopped' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            rhsm_service_ensure: 'stopped',
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsm').with(
+            ensure: 'stopped', enable: false,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+      end
+
+      context 'with rhsm_service_enable => false' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            rhsm_service_enable: false,
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsm').with(
+            ensure: 'stopped', enable: false,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+      end
+
+      context 'with rhsm_service_ensure and enable configured' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            rhsm_service_ensure: 'running',
+            rhsm_service_enable: true,
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsm').with(
+            ensure: 'running', enable: true,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+      end
+
+      # Combined service management tests
+      context 'with rhsmcertd disabled and rhsm enabled' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            manage_rhsmcertd_service: false,
+            manage_rhsm_service: true,
+          }
+        end
+
+        it { is_expected.not_to contain_service('rhsmcertd') }
+
+        it do
+          is_expected.to contain_service('rhsm').with(
+            ensure: 'stopped', enable: false,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+      end
+
+      context 'with rhsmcertd enabled and rhsm disabled' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            manage_rhsmcertd_service: true,
+            manage_rhsm_service: false,
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsmcertd').with(
+            ensure: 'running', enable: true,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+
+        it { is_expected.not_to contain_service('rhsm') }
+      end
+
+      context 'with both services enabled with custom configurations' do
+        let :params do
+          {
+            rh_password: 'password',
+            rh_user: 'username',
+            manage_rhsmcertd_service: true,
+            rhsmcertd_service_ensure: 'stopped',
+            rhsmcertd_service_enable: false,
+            manage_rhsm_service: true,
+            rhsm_service_ensure: 'running',
+            rhsm_service_enable: true,
+          }
+        end
+
+        it do
+          is_expected.to contain_service('rhsmcertd').with(
+            ensure: 'stopped', enable: false,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
+        end
+
+        it do
+          is_expected.to contain_service('rhsm').with(
+            ensure: 'running', enable: true,
+          ).that_subscribes_to('File[/etc/rhsm/rhsm.conf]')
         end
       end
     end

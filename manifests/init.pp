@@ -52,7 +52,13 @@
 #   The name of the repo file subscription-manager uses.
 # @param plugin_settings
 #   Hash of {section => {key => value } } for the yum/dnf plugin.
-# @param package_profile_on_trans Run the package profile on each yum/dnf transaction 
+# @param package_profile_on_trans Run the package profile on each yum/dnf transaction
+# @param manage_rhsmcertd_service should we manage rhsmcertd service
+# @param rhsmcertd_service_ensure ensure state of rhsmcertd service
+# @param rhsmcertd_service_enable enable state of rhsmcertd service
+# @param manage_rhsm_service should we manage rhsm service
+# @param rhsm_service_ensure ensure state of rhsm service
+# @param rhsm_service_enable enable state of rhsm service
 #
 # @example
 #   include rhsm
@@ -95,6 +101,12 @@ class rhsm (
   Stdlib::Absolutepath   $repo_filename            = '/etc/yum.repos.d/redhat.repo',
   Hash                   $plugin_settings          = { 'main' => { 'enabled' => 1 } },
   Integer[0,1]           $package_profile_on_trans = 0,
+  Boolean                $manage_rhsmcertd_service = true,
+  String                 $rhsmcertd_service_ensure = 'running',
+  Boolean                $rhsmcertd_service_enable = true,
+  Boolean                $manage_rhsm_service      = true,
+  String                 $rhsm_service_ensure      = 'stopped',
+  Boolean                $rhsm_service_enable      = false,
 ) {
   if ($rh_user == undef and $rh_password == undef) and ($org == undef and $activationkey == undef) {
     fail("${module_name}: Must provide rh_user and rh_password or org and activationkey")
@@ -157,7 +169,6 @@ class rhsm (
   file { '/etc/rhsm/rhsm.conf':
     content => template("${module_name}/rhsm.conf.erb"),
     require => Package['subscription-manager'],
-    notify  => Service['rhsmcertd'],
   }
 
   if $manage_repo_filename {
@@ -224,8 +235,19 @@ class rhsm (
   -> Rh_subscription <||>
   -> Rh_repo <||>
 
-  service { 'rhsmcertd':
-    ensure => running,
-    enable => true,
+  if $manage_rhsmcertd_service {
+    service { 'rhsmcertd':
+      ensure    => $rhsmcertd_service_ensure,
+      enable    => $rhsmcertd_service_enable,
+      subscribe => File['/etc/rhsm/rhsm.conf'],
+    }
+  }
+
+  if $manage_rhsm_service {
+    service { 'rhsm':
+      ensure    => $rhsm_service_ensure,
+      enable    => $rhsm_service_enable,
+      subscribe => File['/etc/rhsm/rhsm.conf'],
+    }
   }
 }

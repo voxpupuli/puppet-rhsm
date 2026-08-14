@@ -73,6 +73,12 @@ The following parameters are available in the `rhsm` class:
 * [`repo_filename`](#-rhsm--repo_filename)
 * [`plugin_settings`](#-rhsm--plugin_settings)
 * [`package_profile_on_trans`](#-rhsm--package_profile_on_trans)
+* [`manage_rhsmcertd_service`](#-rhsm--manage_rhsmcertd_service)
+* [`rhsmcertd_service_ensure`](#-rhsm--rhsmcertd_service_ensure)
+* [`rhsmcertd_service_enable`](#-rhsm--rhsmcertd_service_enable)
+* [`manage_rhsm_service`](#-rhsm--manage_rhsm_service)
+* [`rhsm_service_ensure`](#-rhsm--rhsm_service_ensure)
+* [`rhsm_service_enable`](#-rhsm--rhsm_service_enable)
 
 ##### <a name="-rhsm--rh_user"></a>`rh_user`
 
@@ -319,6 +325,54 @@ Data type: `Integer[0,1]`
 Run the package profile on each yum/dnf transaction
 
 Default value: `0`
+
+##### <a name="-rhsm--manage_rhsmcertd_service"></a>`manage_rhsmcertd_service`
+
+Data type: `Boolean`
+
+should we manage rhsmcertd service
+
+Default value: `true`
+
+##### <a name="-rhsm--rhsmcertd_service_ensure"></a>`rhsmcertd_service_ensure`
+
+Data type: `String`
+
+ensure state of rhsmcertd service
+
+Default value: `'running'`
+
+##### <a name="-rhsm--rhsmcertd_service_enable"></a>`rhsmcertd_service_enable`
+
+Data type: `Boolean`
+
+enable state of rhsmcertd service
+
+Default value: `true`
+
+##### <a name="-rhsm--manage_rhsm_service"></a>`manage_rhsm_service`
+
+Data type: `Boolean`
+
+should we manage rhsm service
+
+Default value: `true`
+
+##### <a name="-rhsm--rhsm_service_ensure"></a>`rhsm_service_ensure`
+
+Data type: `String`
+
+ensure state of rhsm service
+
+Default value: `'stopped'`
+
+##### <a name="-rhsm--rhsm_service_enable"></a>`rhsm_service_enable`
+
+Data type: `Boolean`
+
+enable state of rhsm service
+
+Default value: `false`
 
 ## Resource types
 
